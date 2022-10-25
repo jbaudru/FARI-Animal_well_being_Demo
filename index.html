@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+<title>FARI - DEMO</title>
+<link rel = "icon" href ="img/marker.png" type = "image/x-icon">
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="style/style.css">
+</head>
+
+<body>
+    <div>
+        <h1 id="wintxt" class="wintext">+100</h1>
+        <h1 id="scoretxt" class="scoretext">Score : 0</h1>
+    </div>
+    
+    <img class="logo" src="img/logo.png" alt="FARI Institute">
+
+    <div class="topbar" href="home">
+        <ul>
+            <li class="current"><a href="index.html">Play</a></li>
+            <li><a href="leaderboard.html">Leaderboard</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+    </div>
+
+    <div id="slider" class="slide">
+        <p>Test</p>
+    </div>
+
+
+    <div id="m" class="map"></div>
+    <div id="marker" title="Marker"></div>
+    <div id="popup"></div>
+
+    <audio id="audio_win" src="audio/win.mp3"></audio>
+    <audio id="audio_lose" src="audio/lose.mp3"></audio>
+</body>
+</html>
+
+<script src="js/OpenLayers.js"></script>
+<script>
+    var currentscore = 0;
+
+
+    map = new OpenLayers.Map("m");
+    map.addLayer(new OpenLayers.Layer.OSM());
+    epsg4326 =  new OpenLayers.Projection("EPSG:4326"); //WGS 1984 projection
+    projectTo = map.getProjectionObject(); //The map projection (Spherical Mercator)
+    var lonLat = new OpenLayers.LonLat(4.350665, 50.848638).transform(epsg4326, projectTo);
+    var zoom=11;
+    map.setCenter(lonLat, zoom);
+    var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
+    
+    // Define markers as "features" of the vector layer:
+    var feature = new OpenLayers.Feature.Vector(
+            new OpenLayers.Geometry.Point( 4.3528, 50.848600 ).transform(epsg4326, projectTo),
+            {description:'<div class="markerContent">\
+            <h2>Chaton Sacré de Birmanie </h2> \
+            <img class="imag" src="img/article_cover/0.png" alt="">  \
+            <br> <small> <p class="description"> Nous livrons aussi à domicile !Le Sacré de Birmanie ou chat Birman : \
+            affectueux et facil à vivre ! ... D\'abord reconnu pour sa beauté, il est \
+            apprécié pour son caractère docile qui en fait un chat agréable à vivre pour \
+            toute la famille.Tous nos chatons sont :- vaccinés, vermifugés, stérilisés, \
+            (conformément à la nouvelle législation de Septembre 2014), identifiés par puce \
+            électronique, enregistrés, accompagnés d\'un passeport européen, bénéficient des \
+            garanties égales. Vous pouvez venir voir nos chatons tous les jours entre 10h & 18h, \
+            également le dimanche et les jours fériés (jeudi sur rdv).Nous sommes facilement \
+            accessibles, à 2 minutes de la sortie 10 du ring de Bruxelles (direction Asse \
+            puis bifurquez vers Zellik sur la N9).Parking privé. Nous livrons aussi à domicile! \
+            Il nous est parfois difficile de répondre aux mails. En outre, nous sommes joignables \
+            tous les jours entre 10h & 18h au (+32)24.66.50.44. HK24215288 Prix : 995€. Si vous \
+            résidez à plus de 100 km de chez nous, donnez le Code ""kilomètres"" à l\'achat d\'un \
+            chaton et recevez une remise immédiate de 30 euro sur vos articles non-food. </p> </small>\
+            \
+            <input type="button" class="but_legal" value="Legal" onclick="doAction(100)">\
+            <input type="button" class="but_illegal" value="Illegal" onclick="doAction(0)"> </div>\
+            '},
+            {externalGraphic: 'img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
+        );    
+    vectorLayer.addFeatures(feature);
+    
+    var feature = new OpenLayers.Feature.Vector(
+            new OpenLayers.Geometry.Point( 4.31, 50.818600 ).transform(epsg4326, projectTo),
+            {description:'<div class="markerContent">\
+                <h2>Chaton à vendre </h2> \
+                <img class="imag" src="img/article_cover/1.png" alt="">  \
+                <br> <small> <p class="description"> Nous livrons aussi à domicile !Le Sacré de Birmanie ou chat Birman : \
+                affectueux et facil à vivre ! ... D\'abord reconnu pour sa beauté, il est \
+                apprécié pour son caractère docile qui en fait un chat agréable à vivre pour \
+                toute la famille.Tous nos chatons sont :- vaccinés, vermifugés, stérilisés, \
+                (conformément à la nouvelle législation de Septembre 2014), identifiés par puce \
+                électronique, enregistrés, accompagnés d\'un passeport européen, bénéficient des \
+                garanties égales. Vous pouvez venir voir nos chatons tous les jours entre 10h & 18h, \
+                également le dimanche et les jours fériés (jeudi sur rdv).Nous sommes facilement \
+                accessibles, à 2 minutes de la sortie 10 du ring de Bruxelles (direction Asse \
+                puis bifurquez vers Zellik sur la N9).Parking privé. Nous livrons aussi à domicile! \
+                Il nous est parfois difficile de répondre aux mails. En outre, nous sommes joignables \
+                tous les jours entre 10h & 18h au (+32)24.66.50.44. HK24215288 Prix : 995€. Si vous \
+                résidez à plus de 100 km de chez nous, donnez le Code ""kilomètres"" à l\'achat d\'un \
+                chaton et recevez une remise immédiate de 30 euro sur vos articles non-food. </p> </small>\
+                \
+                <input type="button" class="but_legal" value="Legal" onclick="doAction(100)">\
+                <input type="button" class="but_illegal" value="Illegal" onclick="doAction(0)"> </div>\
+                '},
+                {externalGraphic: 'img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
+        );    
+    vectorLayer.addFeatures(feature);
+
+    var feature = new OpenLayers.Feature.Vector(
+            new OpenLayers.Geometry.Point( 4.3828, 50.808600  ).transform(epsg4326, projectTo),
+            {description:'<div class="markerContent">\
+                <h2>Chien à vendre </h2> \
+                <img class="imag" src="img/article_cover/2.png" alt="">  \
+                <br> <small> <p class="description"> Nous livrons aussi à domicile !Le Sacré de Birmanie ou chat Birman : \
+                affectueux et facil à vivre ! ... D\'abord reconnu pour sa beauté, il est \
+                apprécié pour son caractère docile qui en fait un chat agréable à vivre pour \
+                toute la famille.Tous nos chatons sont :- vaccinés, vermifugés, stérilisés, \
+                (conformément à la nouvelle législation de Septembre 2014), identifiés par puce \
+                électronique, enregistrés, accompagnés d\'un passeport européen, bénéficient des \
+                garanties égales. Vous pouvez venir voir nos chatons tous les jours entre 10h & 18h, \
+                également le dimanche et les jours fériés (jeudi sur rdv). </p> </small>\
+                \
+                <input type="button" class="but_legal" value="Legal" onclick="doAction(100)">\
+                <input type="button" class="but_illegal" value="Illegal" onclick="doAction(0)"> </div>\
+                '},
+                {externalGraphic: 'img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
+        );    
+    vectorLayer.addFeatures(feature);
+
+    var feature = new OpenLayers.Feature.Vector(
+            new OpenLayers.Geometry.Point( 4.3428, 50.825600  ).transform(epsg4326, projectTo),
+            {description:'<div class="markerContent">\
+                <h2>Chien à vendre </h2> \
+                <img class="imag" src="img/article_cover/3.png" alt="">  \
+                <br> <small> <p class="description"> Nous livrons aussi à domicile !Le Sacré de Birmanie ou chat Birman : \
+                affectueux et facil à vivre ! ... D\'abord reconnu pour sa beauté, il est \
+                apprécié pour son caractère docile qui en fait un chat agréable à vivre pour \
+                toute la famille.Tous nos chatons sont :- vaccinés, vermifugés, stérilisés, \
+                (conformément à la nouvelle législation de Septembre 2014), identifiés par puce \
+                électronique, enregistrés, accompagnés d\'un passeport européen, bénéficient des \
+                garanties égales. Vous pouvez venir voir nos chatons tous les jours entre 10h & 18h, \
+                également le dimanche et les jours fériés (jeudi sur rdv). </p> </small>\
+                \
+                <input type="button" class="but_legal" value="Legal" onclick="doAction(100)">\
+                <input type="button" class="but_illegal" value="Illegal" onclick="doAction(0)"> </div>\
+                '},
+                {externalGraphic: 'img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
+        );    
+    vectorLayer.addFeatures(feature);
+
+    var feature = new OpenLayers.Feature.Vector(
+            new OpenLayers.Geometry.Point( 4.3028, 50.875600  ).transform(epsg4326, projectTo),
+            {description:'<div class="markerContent">\
+                <h2>Perroquet à vendre </h2> \
+                <img class="imag" src="img/article_cover/4.png" alt="">  \
+                <br> <small> <p class="description"> Nous livrons aussi à domicile !Le Sacré de Birmanie ou chat Birman : \
+                affectueux et facil à vivre ! ... D\'abord reconnu pour sa beauté, il est \
+                apprécié pour son caractère docile qui en fait un chat agréable à vivre pour \
+                toute la famille.Tous nos chatons sont :- vaccinés, vermifugés, stérilisés, \
+                (conformément à la nouvelle législation de Septembre 2014), identifiés par puce \
+                électronique, enregistrés, accompagnés d\'un passeport européen, bénéficient des \
+                garanties égales. Vous pouvez venir voir nos chatons tous les jours entre 10h & 18h, \
+                également le dimanche et les jours fériés (jeudi sur rdv). </p> </small>\
+                \
+                <input type="button" class="but_legal" value="Legal" onclick="doAction(100)">\
+                <input type="button" class="but_illegal" value="Illegal" onclick="doAction(0)"> </div>\
+                '},
+                {externalGraphic: 'img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
+        );    
+    vectorLayer.addFeatures(feature);
+
+    var feature = new OpenLayers.Feature.Vector(
+            new OpenLayers.Geometry.Point( 4.4028, 50.895600  ).transform(epsg4326, projectTo),
+            {description:'<div class="markerContent">\
+                <h2>Berger allemand à vendre </h2> \
+                <img class="imag" src="img/article_cover/5.png" alt="">  \
+                <br> <small> <p class="description"> Nous livrons aussi à domicile !Le Sacré de Birmanie ou chat Birman : \
+                affectueux et facil à vivre ! ... D\'abord reconnu pour sa beauté, il est \
+                apprécié pour son caractère docile qui en fait un chat agréable à vivre pour \
+                toute la famille. </p> </small>\
+                \
+                <input type="button" class="but_legal" value="Legal" onclick="doAction(100)">\
+                <input type="button" class="but_illegal" value="Illegal" onclick="doAction(0)"> </div>\
+                '},
+                {externalGraphic: 'img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
+        );    
+    vectorLayer.addFeatures(feature);
+
+    var feature = new OpenLayers.Feature.Vector(
+            new OpenLayers.Geometry.Point( 4.4228, 50.865600  ).transform(epsg4326, projectTo),
+            {description:'<div class="markerContent">\
+                <h2>Berger malinois à vendre </h2> \
+                <img class="imag" src="img/article_cover/6.png" alt="">  \
+                <br> <small> <p class="description"> Nous livrons aussi à domicile !Le Sacré de Birmanie ou chat Birman : \
+                affectueux et facil à vivre ! ... D\'abord reconnu pour sa beauté, il est \
+                apprécié pour son caractère docile qui en fait un chat agréable à vivre pour \
+                toute la famille. </p> </small>\
+                \
+                <input type="button" class="but_legal" value="Legal" onclick="doAction(100)">\
+                <input type="button" class="but_illegal" value="Illegal" onclick="doAction(0)"> </div>\
+                '},
+                {externalGraphic: 'img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
+        );    
+    vectorLayer.addFeatures(feature);
+
+    var feature = new OpenLayers.Feature.Vector(
+            new OpenLayers.Geometry.Point( 4.4128, 50.825600  ).transform(epsg4326, projectTo),
+            {description:'<div class="markerContent">\
+                <h2>Teckel à vendre </h2> \
+                <img class="imag" src="img/article_cover/7.png" alt="">  \
+                <br> <small> <p class="description"> Nous livrons aussi à domicile !Le Sacré de Birmanie ou chat Birman : \
+                affectueux et facil à vivre ! ... D\'abord reconnu pour sa beauté, il est \
+                apprécié pour son caractère docile qui en fait un chat agréable à vivre pour \
+                toute la famille. </p> </small>\
+                \
+                <input type="button" class="but_legal" value="Legal" onclick="doAction(100)">\
+                <input type="button" class="but_illegal" value="Illegal" onclick="doAction(0)"> </div>\
+                '},
+                {externalGraphic: 'img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
+        );    
+    vectorLayer.addFeatures(feature);
+
+    var feature = new OpenLayers.Feature.Vector(
+            new OpenLayers.Geometry.Point( 4.3728, 50.875600  ).transform(epsg4326, projectTo),
+            {description:'<div class="markerContent">\
+                <h2>British shorthair à vendre </h2> \
+                <img class="imag" src="img/article_cover/8.png" alt="">  \
+                <br> <small> <p class="description"> Nous livrons aussi à domicile !Le Sacré de Birmanie ou chat Birman : \
+                affectueux et facil à vivre ! ... D\'abord reconnu pour sa beauté, il est \
+                apprécié pour son caractère docile qui en fait un chat agréable à vivre pour \
+                toute la famille. </p> </small>\
+                \
+                <input type="button" class="but_legal" value="Legal" onclick="doAction(100)">\
+                <input type="button" class="but_illegal" value="Illegal" onclick="doAction(0)"> </div>\
+                '},
+                {externalGraphic: 'img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
+        );    
+    vectorLayer.addFeatures(feature);
+
+    var feature = new OpenLayers.Feature.Vector(
+            new OpenLayers.Geometry.Point( 4.34, 50.888600  ).transform(epsg4326, projectTo),
+            {description:'<div class="markerContent">\
+                <h2>Siamois à vendre </h2> \
+                <img class="imag" src="img/article_cover/9.png" alt="">  \
+                <br> <small> <p class="description"> Nous livrons aussi à domicile !Le Sacré de Birmanie ou chat Birman : \
+                affectueux et facil à vivre ! ... D\'abord reconnu pour sa beauté, il est \
+                apprécié pour son caractère docile qui en fait un chat agréable à vivre pour \
+                toute la famille. </p> </small>\
+                \
+                <input type="button" class="but_legal" value="Legal" onclick="doAction(100)">\
+                <input type="button" class="but_illegal" value="Illegal" onclick="doAction(0)"> </div>\
+                '},
+                {externalGraphic: 'img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
+        );    
+    vectorLayer.addFeatures(feature);
+
+   
+    map.addLayer(vectorLayer);
+ 
+    
+    var controls = {
+      selector: new OpenLayers.Control.SelectFeature(vectorLayer, { onSelect: createPopup, onUnselect: destroyPopup })
+    };
+
+    function createPopup(feature) {
+        var text = document.getElementById("slider");
+        text.innerHTML = feature.attributes.description;// Put Value
+        text.style.opacity = '1';
+        text.style.marginLeft = 'calc(100% - 385px)';
+    }
+
+    function destroyPopup(feature) {
+        var text = document.getElementById("slider");
+        text.innerHTML = feature.attributes.description;// Put Value
+        text.style.opacity = '0';
+    }
+    
+    map.addControl(controls['selector']);
+    controls['selector'].activate();
+    
+    function doAction(value){
+        // TODO : Check value
+        if(value==0){
+            var audio = document.getElementById("audio_lose");
+            audio.play()
+        }
+        else{
+            var audio = document.getElementById("audio_win");
+            audio.play()
+        }
+        var text = document.getElementById("wintxt");
+        text.innerHTML = "+" + String(value);// Put Value
+        text.style.display = "block";
+        text.style.opacity = '1';
+        setTimeout(hideElement, 2000) //milliseconds until timeout//
+        
+        function hideElement() {
+            text.style.opacity = '0';
+        }
+        currentscore += value;
+        var score = document.getElementById("scoretxt");
+        score.innerHTML = "Score : " + String(currentscore);// Put Value
+    }
+
+</script>
