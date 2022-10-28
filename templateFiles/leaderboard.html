@@ -37,32 +37,33 @@
 </html>
 
 <script>
-    var players = {
+    var play = {
         'Jean': 500, 
         'Paul': 200,
         'Pierre': 400,
         'Luc': 1000
     };
 
-    fetch("staticFiles/data/leaderboard.json")
-    .then(
-        response => {
-            return response.json();
-        }
-    )
-    .then(
-        data => {
-            console.log(data);
-        }
-    )
-    .catch(
-        err => {
-        }
-    );
+    let jsondata; 
 
+    /*
+    async function getData() {
+        const response = await fetch("staticFiles/data/leaderboard.json");
+        if (!response.ok) {
+          const message = `An error has occured: ${response.status}`;
+          throw new Error(message);
+        }
+        const data = await response.json();
+        return data;
+    }
+
+    jsondata = getData();
+    console.log(jsondata);
+    */
+    
     function updateLeaderboard(){
         var text = document.getElementById("leaderboard");
-        for (const [key, value] of Object.entries(players)) {
+        for (const [key, value] of Object.entries(play)) {
             text.innerHTML += "<li><b class='textscore2'>" + key + "</b><p class='textscore'>" + value + "</p></li>";
         }
     }
@@ -75,12 +76,12 @@
     }
 
     function addPlayer(name, score){
-        players[name] = score;
+        play[name] = score;
     }
 
     addPlayer("Test", 2000);
 
-    players = sortDict(players);    
+    play = sortDict(play);    
     updateLeaderboard();
 
 </script>
