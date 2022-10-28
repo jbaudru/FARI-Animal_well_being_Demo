@@ -36,9 +36,10 @@ body {
     text-align: center;
     border-radius: 10px;
     display:flex;
-    color: black;
+    color: darkgray;
     padding: 14px 16px;
     text-decoration: none;
+    transition: 0.2s;
 }
 
 .topbar .current a {
@@ -49,12 +50,13 @@ body {
     padding: 14px 16px;
     text-decoration: none;
     background-color:#a3d4ff;
+    transition: 0.2s;
 }
 
 /* Change the link color to #111 (black) on hover */
 .topbar li a:hover {
-    background-color: gainsboro;
-    color: white;
+    background-color: whitesmoke;
+    color: darkgray;
 }
 
 .map{
@@ -67,13 +69,19 @@ body {
     height: calc( 100vh - 80px );
 }
 
+.center{
+    text-align: center;
+    padding: 2em;
+}
+
 .main{
     margin-left: 20%;
     margin-right: 20%;
-    text-align: center;
-    padding: 2em;
+    text-align: left;
+    padding: 0.5em 2em 2em 2em;
     border-radius: 10px;
     background-color: whitesmoke;
+    box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.2);
 }
 
 .legend{
@@ -154,6 +162,22 @@ body {
     background-color: whitesmoke;   
 }
 
+.timetext{
+    display: block;
+    
+    font-size: 15px;
+    color:#3d3d3d;
+    z-index: 99;
+    text-align: right;
+    margin-left: calc( 100% - 205px );
+    margin-top: 0px;
+    position: absolute;
+
+    padding: 1em;
+    border-radius: 10px;
+    background-color: whitesmoke;   
+}
+
 .logo{
     margin-left: calc( 100% - 85px );
     margin-top: 5px;
@@ -173,7 +197,6 @@ body {
     overflow-y: auto;
     overflow-x: hidden;
 
-
     border-radius: 10px;
     background-color: white;   
     box-shadow: -2px 0px 5px 0px rgba(0,0,0,0.2);
@@ -184,6 +207,7 @@ body {
 .markerContent{
     position:relative;
     width: 370px;
+    color: rgb(64, 64, 64);
     background-color: white;
     opacity: 90%;
     border-radius: 15px;
@@ -233,4 +257,31 @@ body {
 .but_illegal:hover {
     opacity: 0.8;
     transition: 0.2s;
+}
+
+.but_play{
+    height: 40px;
+    font-size: 15px;
+    color: white;
+    background-color: #a3d4ff;
+    border-width : 0;
+    height: 40px;
+    text-align: center;
+    padding: 24px 100px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.but_play:hover{
+    height: 40px;
+    
+    color: white;
+    background-color: #7bc1ff;
+    border-width : 0;
+    height: 40px;
+    text-align: center;
+    padding: 24px 200px;
+    border-radius: 10px;
+    text-decoration: none;
 }

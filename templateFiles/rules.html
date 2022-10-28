@@ -5,7 +5,7 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="staticFiles/style/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&family=Montserrat&display=swap" rel="stylesheet">
     <style>
         body {
@@ -15,16 +15,10 @@
 </head>
 
 <body>
-    <img class="logo" src="img/logo.png" alt="FARI Institute">
-    
-    <div class="topbar" href="home">
-        <ul>
-            <li><a href="index.html">Play</a></li>
-            <li><a href="leaderboard.html">Leaderboard</a></li>
-            <li class="current"><a href="about.html">About</a></li>
-        </ul>
-    </div>
-
+    <img class="logo" src="staticFiles/img/logo.png" alt="FARI Institute">
+    <br>
+    <br>
+    <br>
     <div class="main">
         <h3>Rules</h3>
         <p class="subtitle"><b>Explain the rules of the game. </b></p>
@@ -40,11 +34,16 @@
         <p class="subtitle"><b>Explain FARI. </b></p>
         <small>This project was made in order to show in a playful way how the initial algorithm classifies the ads for selling animals. Therefore, this project does not include the algorithm, it is simply meant to be educational.</small>
     </div>
-    <br>
+
+    <div class="center">
+        <br>
+        <a class="but_play" href="{{url_for('play')}}">Play</a>
+        <br>
+    </div>
+
     <div class="legend">
         <small>This project was developed by Julien Baudru under the supervision of the FARI Institute.</small>
     </div>
-
-    
+ 
 </body>
 </html>

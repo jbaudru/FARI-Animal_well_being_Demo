@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 
 <title>FARI - DEMO</title>
-<link rel = "icon" href ="img/marker.png" type = "image/x-icon">
+<link rel = "icon" href ="staticFiles/img/marker.png" type = "image/x-icon">
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="staticFiles/style/style.css">
 </head>
 
 <body>
     <div>
         <h1 id="wintxt" class="wintext">+100</h1>
         <h1 id="scoretxt" class="scoretext">Score : 0</h1>
+        <h1 id="timer" class="timetext">Time : 0</h1>
     </div>
     
-    <img class="logo" src="img/logo.png" alt="FARI Institute">
+    <img class="logo" src="staticFiles/img/logo.png" alt="FARI Institute">
 
     <div class="topbar" href="home">
         <ul>
-            <li class="current"><a href="index.html">Play</a></li>
-            <li><a href="leaderboard.html">Leaderboard</a></li>
-            <li><a href="about.html">About</a></li>
+            <li class="current"><a href="{{url_for('play')}}">Restart</a></li>
+            <li><a href="{{url_for('leaderboard')}}">Leaderboard</a></li>
+            <li><a href="{{url_for('home')}}">Rules</a></li>
         </ul>
     </div>
 
@@ -33,14 +34,15 @@
     <div id="marker" title="Marker"></div>
     <div id="popup"></div>
 
-    <audio id="audio_win" src="audio/win.mp3"></audio>
-    <audio id="audio_lose" src="audio/lose.mp3"></audio>
+    <audio id="audio_win" src="staticFiles/audio/win.mp3"></audio>
+    <audio id="audio_lose" src="staticFiles/audio/lose.mp3"></audio>
 </body>
 </html>
 
-<script src="js/OpenLayers.js"></script>
+<script src="staticFiles/js/OpenLayers.js"></script>
 <script>
     var currentscore = 0;
+    var timer = 0;
 
 
     map = new OpenLayers.Map("m");
@@ -57,7 +59,7 @@
             new OpenLayers.Geometry.Point( 4.3528, 50.848600 ).transform(epsg4326, projectTo),
             {description:'<div class="markerContent">\
             <h2>Chaton Sacré de Birmanie </h2> \
-            <img class="imag" src="img/article_cover/0.png" alt="">  \
+            <img class="imag" src="staticFiles/img/article_cover/0.png" alt="">  \
             <br> <small> <p class="description"> Nous livrons aussi à domicile !Le Sacré de Birmanie ou chat Birman : \
             affectueux et facil à vivre ! ... D\'abord reconnu pour sa beauté, il est \
             apprécié pour son caractère docile qui en fait un chat agréable à vivre pour \
@@ -76,7 +78,7 @@
             <input type="button" class="but_legal" value="Legal" onclick="doAction(100)">\
             <input type="button" class="but_illegal" value="Illegal" onclick="doAction(0)"> </div>\
             '},
-            {externalGraphic: 'img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
+            {externalGraphic: 'staticFiles/img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
         );    
     vectorLayer.addFeatures(feature);
     
@@ -84,7 +86,7 @@
             new OpenLayers.Geometry.Point( 4.31, 50.818600 ).transform(epsg4326, projectTo),
             {description:'<div class="markerContent">\
                 <h2>Chaton à vendre </h2> \
-                <img class="imag" src="img/article_cover/1.png" alt="">  \
+                <img class="imag" src="staticFiles/img/article_cover/1.png" alt="">  \
                 <br> <small> <p class="description"> Nous livrons aussi à domicile !Le Sacré de Birmanie ou chat Birman : \
                 affectueux et facil à vivre ! ... D\'abord reconnu pour sa beauté, il est \
                 apprécié pour son caractère docile qui en fait un chat agréable à vivre pour \
@@ -103,7 +105,7 @@
                 <input type="button" class="but_legal" value="Legal" onclick="doAction(100)">\
                 <input type="button" class="but_illegal" value="Illegal" onclick="doAction(0)"> </div>\
                 '},
-                {externalGraphic: 'img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
+                {externalGraphic: 'staticFiles/img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
         );    
     vectorLayer.addFeatures(feature);
 
@@ -111,7 +113,7 @@
             new OpenLayers.Geometry.Point( 4.3828, 50.808600  ).transform(epsg4326, projectTo),
             {description:'<div class="markerContent">\
                 <h2>Chien à vendre </h2> \
-                <img class="imag" src="img/article_cover/2.png" alt="">  \
+                <img class="imag" src="staticFiles/img/article_cover/2.png" alt="">  \
                 <br> <small> <p class="description"> Nous livrons aussi à domicile !Le Sacré de Birmanie ou chat Birman : \
                 affectueux et facil à vivre ! ... D\'abord reconnu pour sa beauté, il est \
                 apprécié pour son caractère docile qui en fait un chat agréable à vivre pour \
@@ -124,7 +126,7 @@
                 <input type="button" class="but_legal" value="Legal" onclick="doAction(100)">\
                 <input type="button" class="but_illegal" value="Illegal" onclick="doAction(0)"> </div>\
                 '},
-                {externalGraphic: 'img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
+                {externalGraphic: 'staticFiles/img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
         );    
     vectorLayer.addFeatures(feature);
 
@@ -132,7 +134,7 @@
             new OpenLayers.Geometry.Point( 4.3428, 50.825600  ).transform(epsg4326, projectTo),
             {description:'<div class="markerContent">\
                 <h2>Chien à vendre </h2> \
-                <img class="imag" src="img/article_cover/3.png" alt="">  \
+                <img class="imag" src="staticFiles/img/article_cover/3.png" alt="">  \
                 <br> <small> <p class="description"> Nous livrons aussi à domicile !Le Sacré de Birmanie ou chat Birman : \
                 affectueux et facil à vivre ! ... D\'abord reconnu pour sa beauté, il est \
                 apprécié pour son caractère docile qui en fait un chat agréable à vivre pour \
@@ -145,7 +147,7 @@
                 <input type="button" class="but_legal" value="Legal" onclick="doAction(100)">\
                 <input type="button" class="but_illegal" value="Illegal" onclick="doAction(0)"> </div>\
                 '},
-                {externalGraphic: 'img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
+                {externalGraphic: 'staticFiles/img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
         );    
     vectorLayer.addFeatures(feature);
 
@@ -153,7 +155,7 @@
             new OpenLayers.Geometry.Point( 4.3028, 50.875600  ).transform(epsg4326, projectTo),
             {description:'<div class="markerContent">\
                 <h2>Perroquet à vendre </h2> \
-                <img class="imag" src="img/article_cover/4.png" alt="">  \
+                <img class="imag" src="staticFiles/img/article_cover/4.png" alt="">  \
                 <br> <small> <p class="description"> Nous livrons aussi à domicile !Le Sacré de Birmanie ou chat Birman : \
                 affectueux et facil à vivre ! ... D\'abord reconnu pour sa beauté, il est \
                 apprécié pour son caractère docile qui en fait un chat agréable à vivre pour \
@@ -166,7 +168,7 @@
                 <input type="button" class="but_legal" value="Legal" onclick="doAction(100)">\
                 <input type="button" class="but_illegal" value="Illegal" onclick="doAction(0)"> </div>\
                 '},
-                {externalGraphic: 'img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
+                {externalGraphic: 'staticFiles/img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
         );    
     vectorLayer.addFeatures(feature);
 
@@ -174,7 +176,7 @@
             new OpenLayers.Geometry.Point( 4.4028, 50.895600  ).transform(epsg4326, projectTo),
             {description:'<div class="markerContent">\
                 <h2>Berger allemand à vendre </h2> \
-                <img class="imag" src="img/article_cover/5.png" alt="">  \
+                <img class="imag" src="staticFiles/img/article_cover/5.png" alt="">  \
                 <br> <small> <p class="description"> Nous livrons aussi à domicile !Le Sacré de Birmanie ou chat Birman : \
                 affectueux et facil à vivre ! ... D\'abord reconnu pour sa beauté, il est \
                 apprécié pour son caractère docile qui en fait un chat agréable à vivre pour \
@@ -183,7 +185,7 @@
                 <input type="button" class="but_legal" value="Legal" onclick="doAction(100)">\
                 <input type="button" class="but_illegal" value="Illegal" onclick="doAction(0)"> </div>\
                 '},
-                {externalGraphic: 'img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
+                {externalGraphic: 'staticFiles/img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
         );    
     vectorLayer.addFeatures(feature);
 
@@ -191,7 +193,7 @@
             new OpenLayers.Geometry.Point( 4.4228, 50.865600  ).transform(epsg4326, projectTo),
             {description:'<div class="markerContent">\
                 <h2>Berger malinois à vendre </h2> \
-                <img class="imag" src="img/article_cover/6.png" alt="">  \
+                <img class="imag" src="staticFiles/img/article_cover/6.png" alt="">  \
                 <br> <small> <p class="description"> Nous livrons aussi à domicile !Le Sacré de Birmanie ou chat Birman : \
                 affectueux et facil à vivre ! ... D\'abord reconnu pour sa beauté, il est \
                 apprécié pour son caractère docile qui en fait un chat agréable à vivre pour \
@@ -200,7 +202,7 @@
                 <input type="button" class="but_legal" value="Legal" onclick="doAction(100)">\
                 <input type="button" class="but_illegal" value="Illegal" onclick="doAction(0)"> </div>\
                 '},
-                {externalGraphic: 'img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
+                {externalGraphic: 'staticFiles/img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
         );    
     vectorLayer.addFeatures(feature);
 
@@ -208,7 +210,7 @@
             new OpenLayers.Geometry.Point( 4.4128, 50.825600  ).transform(epsg4326, projectTo),
             {description:'<div class="markerContent">\
                 <h2>Teckel à vendre </h2> \
-                <img class="imag" src="img/article_cover/7.png" alt="">  \
+                <img class="imag" src="staticFiles/img/article_cover/7.png" alt="">  \
                 <br> <small> <p class="description"> Nous livrons aussi à domicile !Le Sacré de Birmanie ou chat Birman : \
                 affectueux et facil à vivre ! ... D\'abord reconnu pour sa beauté, il est \
                 apprécié pour son caractère docile qui en fait un chat agréable à vivre pour \
@@ -217,7 +219,7 @@
                 <input type="button" class="but_legal" value="Legal" onclick="doAction(100)">\
                 <input type="button" class="but_illegal" value="Illegal" onclick="doAction(0)"> </div>\
                 '},
-                {externalGraphic: 'img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
+                {externalGraphic: 'staticFiles/img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
         );    
     vectorLayer.addFeatures(feature);
 
@@ -225,7 +227,7 @@
             new OpenLayers.Geometry.Point( 4.3728, 50.875600  ).transform(epsg4326, projectTo),
             {description:'<div class="markerContent">\
                 <h2>British shorthair à vendre </h2> \
-                <img class="imag" src="img/article_cover/8.png" alt="">  \
+                <img class="imag" src="staticFiles/img/article_cover/8.png" alt="">  \
                 <br> <small> <p class="description"> Nous livrons aussi à domicile !Le Sacré de Birmanie ou chat Birman : \
                 affectueux et facil à vivre ! ... D\'abord reconnu pour sa beauté, il est \
                 apprécié pour son caractère docile qui en fait un chat agréable à vivre pour \
@@ -234,7 +236,7 @@
                 <input type="button" class="but_legal" value="Legal" onclick="doAction(100)">\
                 <input type="button" class="but_illegal" value="Illegal" onclick="doAction(0)"> </div>\
                 '},
-                {externalGraphic: 'img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
+                {externalGraphic: 'staticFiles/img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
         );    
     vectorLayer.addFeatures(feature);
 
@@ -242,7 +244,7 @@
             new OpenLayers.Geometry.Point( 4.34, 50.888600  ).transform(epsg4326, projectTo),
             {description:'<div class="markerContent">\
                 <h2>Siamois à vendre </h2> \
-                <img class="imag" src="img/article_cover/9.png" alt="">  \
+                <img class="imag" src="staticFiles/img/article_cover/9.png" alt="">  \
                 <br> <small> <p class="description"> Nous livrons aussi à domicile !Le Sacré de Birmanie ou chat Birman : \
                 affectueux et facil à vivre ! ... D\'abord reconnu pour sa beauté, il est \
                 apprécié pour son caractère docile qui en fait un chat agréable à vivre pour \
@@ -251,7 +253,7 @@
                 <input type="button" class="but_legal" value="Legal" onclick="doAction(100)">\
                 <input type="button" class="but_illegal" value="Illegal" onclick="doAction(0)"> </div>\
                 '},
-                {externalGraphic: 'img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25  }
+                {externalGraphic: 'staticFiles/img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25}
         );    
     vectorLayer.addFeatures(feature);
 
@@ -302,5 +304,12 @@
         var score = document.getElementById("scoretxt");
         score.innerHTML = "Score : " + String(currentscore);// Put Value
     }
+
+    var timerId= setInterval(()=>{getTime()},1000);
+    function getTime(){
+        timer += 1
+        document.getElementById("timer").innerHTML = "Time : " + String(timer);
+    }
+    
 
 </script>

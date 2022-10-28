@@ -1,0 +1,20 @@
+{
+    "players": [
+     {
+        "pseudo": "Pierre",
+        "score": 1000
+     },
+     { 
+         "pseudo": "Paul",
+         "score": 200
+     },
+     { 
+         "pseudo": "Jean",
+         "score": 100
+     },
+     { 
+         "pseudo": "Luc",
+         "score": 2000
+     }
+   ]
+ }
