@@ -1,7 +1,7 @@
 {
     "ads": [
         {
-            "description": "<div class='markerContent'><h2>Cat to sell</h2><img class='imag' src='staticFiles/img/article_cover/9.png' alt=''><br> <small> <p class='description'> Nous livrons aussi à domicile !Le Sacré de Birmanie ou chat Birman : affectueux et facil à vivre ! ... D'abord reconnu pour sa beauté, il est apprécié pour son caractère docile qui en fait un chat agréable à vivre pour toute la famille. </p> </small> <input type='button' class='but_legal' value='Legal' onclick='doAction(100)'> <input type='button' class='but_illegal' value='Illegal' onclick='doAction(0)'> </div>",
+            "description": "<div class='markerContent'><h2>Cat to sell</h2><img class='imag' src='staticFiles/img/article_cover/9.png' alt=''><br> <small> <p class='description'> <p class='adtext'>Marco99</p> <p class='adtext'>We also deliver to your home! The Burmese cat: affectionate and easy to live with! ... First recognized for its beauty, it is appreciated for its docile character which makes it a pleasant cat to live with for the whole family.</p> <p class='adtext'>HK12343322</p> <p class='adtext'>2ememain.be</p> </p> </small> <input type='button' class='but_legal' value='Legal' onclick='doAction(100)'> <input type='button' class='but_illegal' value='Illegal' onclick='doAction(0)'> </div>",
             "lat": 4.34,
             "long": 50.888600
         },
