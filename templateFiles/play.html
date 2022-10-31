@@ -97,15 +97,15 @@
             audio.play()
         }
         var text = document.getElementById("wintxt");
-        text.innerHTML = "+" + String(value);// Put Value
+        text.innerHTML = "+" + String(value);// TODO : Depend on the difficulty and time
         text.style.display = "block";
         text.style.opacity = '1';
-        setTimeout(hideElement, 2000) //milliseconds until timeout//
+        setTimeout(hideElement, 2000)
         
         function hideElement() {
             text.style.opacity = '0';
         }
-        currentscore += value;
+        currentscore += value; // TODO : Depend on the difficulty and time
         var score = document.getElementById("scoretxt");
         score.innerHTML = "Score : " + String(currentscore);// Put Value
     }
