@@ -8,6 +8,13 @@ body {
     font-family: 'Muli', sans-serif;   
 }
 
+.title{
+    font-family: 'Quicksand', sans-serif;
+    font-size: x-large;
+    color:#a3d4ff;
+    text-align: center;
+}
+
 .topbar{
     left: 0px;
     height: 60px;
@@ -245,6 +252,15 @@ body {
     padding: 5px;
 }
 
+.ruletext{
+    text-align: left;
+    margin-left: 0  ;
+    margin-right: 0;
+    background-color: rgb(234, 234, 234);
+    border-radius: 10px;
+    padding: 5px;
+}
+
 .imag{
     border-radius: 15px;
     width: 80%;
@@ -292,13 +308,29 @@ body {
     transition: 0.2s;
 }
 
+.select_diff{
+    height: 65px;
+    width: 230px;
+    font-size: 15px;
+    color: white;
+    background-color: #a3d4ff;
+    border-width : 0;
+    text-align: center;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+.select_diff:hover{
+    background-color: #7bc1ff;
+    width: 430px;
+}
+
 .but_play{
     height: 40px;
     font-size: 15px;
     color: white;
     background-color: #a3d4ff;
     border-width : 0;
-    height: 40px;
     text-align: center;
     padding: 24px 100px;
     border-radius: 10px;
