@@ -1,4 +1,5 @@
 from flask import Flask, redirect, url_for, request, render_template
+import json
 
 app = Flask(__name__, template_folder='templateFiles', static_folder='staticFiles')
 
@@ -12,12 +13,11 @@ def play():
 
 @app.route('/leaderboard')
 def leaderboard():
-    return render_template('leaderboard.html')
+    data = None
+    with open("staticFiles/data/leaderboard.json") as json_file:
+        data = json.load(json_file)
+    return render_template('leaderboard.html', players=data["players"])
 
-    
-@app.route('/send-use')
-def send_use():
-    pass
 
 if __name__ == "__main__":
     app.run()
