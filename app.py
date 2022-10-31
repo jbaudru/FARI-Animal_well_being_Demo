@@ -9,7 +9,11 @@ def home():
 
 @app.route('/play')
 def play():
-    return render_template('play.html')
+    data = None
+    with open("staticFiles/data/ads.json") as json_file:
+        data = json.load(json_file)
+
+    return render_template('play.html', ads=data["ads"])
 
 @app.route('/leaderboard')
 def leaderboard():

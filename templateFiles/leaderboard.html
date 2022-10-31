@@ -28,7 +28,6 @@
     </div>
 
     <div class="center">
-        <br>
         <a class="but_play" href="{{url_for('play')}}">Play again</a>
         <br>
     </div>
@@ -37,7 +36,7 @@
 </html>
 
 <script>
-    var play = {{players | tojson}};
+    var play = {{players | tojson}}; //Move the Python dict into JS object
 
     function updateLeaderboard(){
         var text = document.getElementById("leaderboard");
@@ -66,8 +65,7 @@
     }
 
     play = convertPyDictInJSDict(play);
-    //addPlayer("Test", 2000);
-
+    addPlayer("Test", 2000);
     play = sortDict(play);    
     updateLeaderboard();
 

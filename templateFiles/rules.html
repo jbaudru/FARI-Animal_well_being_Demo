@@ -20,18 +20,65 @@
     <br>
     <br>
     <div class="main">
-        <h3>Rules</h3>
-        <p class="subtitle"><b>Explain the rules of the game. </b></p>
-        <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc molestie viverra ex, vitae luctus odio faucibus nec. Quisque auctor lacus non iaculis pharetra. Nunc nec elit nulla. Sed pharetra felis in mi vehicula consectetur at id augue. Integer faucibus vitae nibh quis tincidunt. Integer sodales metus sed libero commodo scelerisque. Proin id pulvinar enim, ut dapibus est. Suspendisse at neque pellentesque, convallis ipsum et, sagittis nisl. Nam euismod non tortor sit amet condimentum. Morbi non magna sapien. Maecenas sagittis nunc ex, non egestas ante consequat nec. Ut at scelerisque tortor. Aenean sit amet nibh ac leo lobortis tincidunt a vitae sem.
-            Fusce id ex a orci placerat maximus sit amet vitae nulla. Sed sit amet urna at tellus viverra fermentum eu et turpis. Nunc imperdiet vitae sapien nec accumsan. Mauris elementum erat eget mi vestibulum fermentum. Aenean luctus sapien et risus ornare, ac rhoncus elit iaculis. Duis mi massa, rhoncus at est sed, mattis imperdiet diam. Suspendisse potenti. Ut vel mauris eu nisi congue pellentesque laoreet vel dolor. Sed rhoncus nec magna at vehicula.
-            Duis blandit egestas mauris eu mollis. Etiam pulvinar lectus vel rhoncus ultricies. Duis sodales, orci et faucibus mollis, orci felis malesuada mi, sit amet commodo tellus odio nec massa. Donec lacinia tincidunt venenatis. Fusce sed elementum dui. Nullam maximus est nec purus rutrum venenatis. Donec finibus pretium ullamcorper. Mauris ultrices felis massa, eu pulvinar eros finibus eu. Sed ac neque ipsum. Pellentesque pretium ligula a leo aliquam, ut egestas nisi malesuada.</small>  
+        <p class="subtitle"><b>Rules</b></p>
+        <small>
+            The goal of this game is simple, you will have to <b>classify the ads that sell animals</b> into two categories, legal ads and illegal ads.
+            <br>
+            To do this, you'll have to <b>analyze the image and description of the ad</b> to see if it respects the legislation. The ads in this game will have the following form:
+        </small>
+        <br>
+        <br>
+        <div class="adexample">
+            <div class='markerContent' style="box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.2);">
+                <h2>Title of ad</h2>
+                <img class='imag' src='staticFiles/img/article_cover/9.png' alt=''>
+                <br>
+                <small>
+                <p class='description'> Description of ad
+                    <br>
+                    <br>
+                    <b>HK0000000</b>
+                    <br>
+                    <br>
+                    100€
+                </p>
+                </small> 
+                <input type='button' class='but_legal' value='Legal' onclick='doAction(100)'> 
+                <input type='button' class='but_illegal' value='Illegal' onclick='doAction(0)'> 
+                <br>
+                <br>
+            </div>
+        </div>
+        <br>
+        <small>
+            <b>To be legal</b>, an ad selling an animal online must respect all the following characteristics: 
+            <br>
+            <ul>
+                <li>
+                    The description must contain the following legal mention: <br>
+                    <i>"An animal is a sentient living being and not a toy.
+                    The purchase or adoption of an animal is done in full awareness of the responsibilities of its new owner.
+                    Abandonment or negligence of an animal is an offence subject to criminal or administrative prosecution."</i>
+                </li>
+                <li>
+                    All ads must include a unique approval number for the seller, which always begins with the two letters HK followed by 8 digits, for example: HK12224566
+                </li>
+                <li>
+                    The image of the ad can only contain one single animal
+                </li>
+                <li>
+                    The ad must be published from the Brussels region or Flanders, so it cannot be published from Wallonia.
+                </li>
+            </ul>
+            You will <b>earn points</b> based on the <b>number of correctly classified ads</b> and the <b>time you took</b> to complete the task.
+            You will be able to compare your score to other players as well as to the algorithm that takes care of this task in practice. 
+        </small>
 
     </div>
     <br>
 
     <div class="main">
-        <h3>About</h3>
-        <p class="subtitle"><b>Explain FARI. </b></p>
+        <p class="subtitle"><b>About</b></p>
         <small>This project was made in order to show in a playful way how the initial algorithm classifies the ads for selling animals. Therefore, this project does not include the algorithm, it is simply meant to be educational.</small>
     </div>
 
