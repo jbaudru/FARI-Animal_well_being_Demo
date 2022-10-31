@@ -7,7 +7,6 @@
 <head>
     <script type="text/json" src="staticFiles/data/leaderboard.json"></script>
     <link rel="stylesheet" href="staticFiles/style/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&family=Montserrat&display=swap" rel="stylesheet">
     <style>
         body {
         font-family: "Sofia", sans-serif;
@@ -23,14 +22,12 @@
         <br>
         <h3 class="titlescore">Name | Score</h3>
         <ul id="leaderboard">
-
         </ul>
+        <div class="center">
+            <a class="but_play" href="{{url_for('play')}}">Play again</a>
+        </div>
     </div>
-
-    <div class="center">
-        <a class="but_play" href="{{url_for('play')}}">Play again</a>
-        <br>
-    </div>
+    
 
 </body>
 </html>

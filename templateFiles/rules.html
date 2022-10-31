@@ -6,7 +6,6 @@
 
 <head>
     <link rel="stylesheet" href="staticFiles/style/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&family=Montserrat&display=swap" rel="stylesheet">
     <style>
         body {
         font-family: "Sofia", sans-serif;
@@ -34,13 +33,11 @@
                 <img class='imag' src='staticFiles/img/article_cover/9.png' alt=''>
                 <br>
                 <small>
-                <p class='description'> Description of ad
-                    <br>
-                    <br>
-                    <b>HK0000000</b>
-                    <br>
-                    <br>
-                    100€
+                <p class='description'> 
+                    <p class="adtext">Seller</p>
+                    <p class="adtext">Description of ad</p>
+                    <p class="adtext">HK number</p>
+                    <p class="adtext">Website</p>
                 </p>
                 </small> 
                 <input type='button' class='but_legal' value='Legal' onclick='doAction(100)'> 
@@ -53,40 +50,43 @@
         <small>
             <b>To be legal</b>, an ad selling an animal online must respect all the following characteristics: 
             <br>
-            <ul>
-                <li>
-                    The description must contain the following legal mention: <br>
+            <ul class="ruleslist">
+                <li class="adtext">
+                    The description must contain the following legal mention: 
                     <i>"An animal is a sentient living being and not a toy.
                     The purchase or adoption of an animal is done in full awareness of the responsibilities of its new owner.
                     Abandonment or negligence of an animal is an offence subject to criminal or administrative prosecution."</i>
                 </li>
-                <li>
-                    All ads must include a unique approval number for the seller, which always begins with the two letters HK followed by 8 digits, for example: HK12224566
+                <br>
+                <li class="adtext">
+                    All ads must include a unique approval number for the seller, which always begins with the two letters HK followed by 8 digits (ex.: HK12224566).
                 </li>
-                <li>
-                    The image of the ad can only contain one single animal
+                <br>
+                <li class="adtext">
+                    The image of the ad can only contain one single animal.
                 </li>
-                <li>
+                <br>
+                <li class="adtext">
                     The ad must be published from the Brussels region or Flanders, so it cannot be published from Wallonia.
+                </li>
+                <br>
+                <li class="adtext">
+                    It is strictly forbidden to sell animals on Facebook Marketplace.
                 </li>
             </ul>
             You will <b>earn points</b> based on the <b>number of correctly classified ads</b> and the <b>time you took</b> to complete the task.
             You will be able to compare your score to other players as well as to the algorithm that takes care of this task in practice. 
         </small>
 
-    </div>
-    <br>
+        <div class="center">
+            <br>
+            <a class="but_play" href="{{url_for('play')}}">Play</a>
+            <br>
+        </div>
 
-    <div class="main">
-        <p class="subtitle"><b>About</b></p>
-        <small>This project was made in order to show in a playful way how the initial algorithm classifies the ads for selling animals. Therefore, this project does not include the algorithm, it is simply meant to be educational.</small>
     </div>
 
-    <div class="center">
-        <br>
-        <a class="but_play" href="{{url_for('play')}}">Play</a>
-        <br>
-    </div>
+    
 
     <div class="legend">
         <small>This project was developed by Julien Baudru under the supervision of the FARI Institute.</small>

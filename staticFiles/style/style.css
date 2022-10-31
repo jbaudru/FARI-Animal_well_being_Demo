@@ -1,12 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300&family=Montserrat&display=swap');
-
+@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+      @import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
 html {
     scroll-behavior: smooth;
 }
 
 body {
-    font-family: "Sofia", sans-serif;
-    
+    font-family: 'Muli', sans-serif;   
 }
 
 .topbar{
@@ -75,6 +74,7 @@ body {
 }
 
 .main{
+    font-family: 'Muli', sans-serif; 
     margin-left: 20%;
     margin-right: 20%;
     text-align: left;
@@ -89,18 +89,23 @@ body {
     margin-right: 25%;
 }
 
+.ruleslist{
+    padding: 5px;
+    margin-top: 5px;
+    list-style-type: none;
+}
+
 .legend{
+    font-family: 'Muli', sans-serif; 
     font-size: smaller;
     color: #595959;
     margin: 1em;
     text-align: center; 
 }
 
-.titlescore{
-    color: #595959;
-}
 
 .subtitle{
+    font-family: 'Quicksand', sans-serif;
     font-size: x-large;
     color:#a3d4ff;
 }
@@ -128,12 +133,20 @@ body {
     margin-bottom: 10px; 
 }
 
+
+.titlescore{
+    font-family: 'Quicksand', sans-serif;
+    color: #595959;
+}
+
 .textscore{
+    font-family: 'Muli', sans-serif; 
     display: inline-block;
     width: 50%;
 }
 
 .textscore2{
+    font-family: 'Muli', sans-serif; 
     display: inline-block;
     width: 50%;
 }
@@ -212,6 +225,7 @@ body {
 }   
 
 .markerContent{
+    font-family: 'Muli', sans-serif; 
     position:relative;
     width: 370px;
     color: rgb(64, 64, 64);
@@ -222,7 +236,17 @@ body {
     text-align: center;
 }
 
+.adtext{
+    text-align: left;
+    margin-left: 10%;
+    margin-right: 10%;
+    background-color: rgb(234, 234, 234);
+    border-radius: 10px;
+    padding: 5px;
+}
+
 .imag{
+    border-radius: 15px;
     width: 80%;
 }
 
@@ -234,6 +258,7 @@ body {
 
 
 .but_legal {
+    font-family: 'Muli', sans-serif; 
     height: 40px;
     width: 40%;
     color: white;
@@ -250,6 +275,7 @@ body {
 }
 
 .but_illegal {
+    font-family: 'Muli', sans-serif; 
     height: 40px;
     width: 40%;
     color: white;
