@@ -25,14 +25,20 @@
         </ul>
     </div>
 
-    <div id="slider" class="slide">
-        <p>Test</p>
-    </div>
-
-
+    <div id="slider" class="slide"></div>
     <div id="m" class="map"></div>
     <div id="marker" title="Marker"></div>
-    <div id="popup"></div>
+
+    <div id="popup" class="popup"> 
+        <h1>Finish</h1>
+        <p>Choose an username</p>
+
+        <input class="username" type="text" id="username" name="username">
+        <a id="button"class="but_save" href="{{url_for('leaderboard')}}">Save</a>
+        <br>
+        <br>
+        <br>
+    </div>
 
     <audio id="audio_win" src="staticFiles/audio/win.mp3"></audio>
     <audio id="audio_lose" src="staticFiles/audio/lose.mp3"></audio>
@@ -43,14 +49,15 @@
 <script>
     var currentscore = 0;
     var timer = 0;
-    var ads = {{ads | tojson}};
-
-    map = new OpenLayers.Map("m");
+    var zoom=11;
+    var starttime = undefined;
+    var ads = {{ads|tojson}};
+    var map = new OpenLayers.Map("m");
+    
     map.addLayer(new OpenLayers.Layer.OSM());
     epsg4326 =  new OpenLayers.Projection("EPSG:4326"); //WGS 1984 projection
     projectTo = map.getProjectionObject(); //The map projection (Spherical Mercator)
     var lonLat = new OpenLayers.LonLat(4.350665, 50.848638).transform(epsg4326, projectTo);
-    var zoom=11;
     map.setCenter(lonLat, zoom);
     var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
     
@@ -58,64 +65,137 @@
     for (let i = 0; i < ads.length; i++) {
         var feature = new OpenLayers.Feature.Vector(
         new OpenLayers.Geometry.Point( ads[i]['lat'], ads[i]['long'] ).transform(epsg4326, projectTo),
-            {description: ads[i]['description']},
+            {description: [ads[i]['description'], ads[i]['id'], ads[i]['error']]},
             {externalGraphic: 'staticFiles/img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25}
         );    
         vectorLayer.addFeatures(feature);       
     }
 
     map.addLayer(vectorLayer);
-     
+    
+    // Controler for click on the pin in the map
     var controls = {
       selector: new OpenLayers.Control.SelectFeature(vectorLayer, { onSelect: createPopup, onUnselect: destroyPopup })
     };
 
+    // Show the side window with the informations about the ad
     function createPopup(feature) {
+        starttime = Date.now();
         var text = document.getElementById("slider");
-        text.innerHTML = feature.attributes.description;// Put Value
+        text.innerHTML = feature.attributes.description[0];
         text.style.opacity = '1';
         text.style.marginLeft = 'calc(100% - 385px)';
     }
 
+    // Hide the side window with the informations about the ad
     function destroyPopup(feature) {
         var text = document.getElementById("slider");
-        text.innerHTML = feature.attributes.description;// Put Value
+        text.innerHTML = feature.attributes.description;
         text.style.opacity = '0';
+    }
+
+    // Remove the popup from the map once the user classify it
+    function removePopup(id){
+        var feature = undefined;
+        for (i = 0; i < vectorLayer.features.length; i++) {
+            var idd = vectorLayer.features[i]['attributes']['description'][1];
+            if(id==idd){
+                feature = vectorLayer.features[i];
+                break;
+            }
+        }
+        vectorLayer.removeFeatures(feature);
+        destroyPopup(feature);
     }
     
     map.addControl(controls['selector']);
     controls['selector'].activate();
     
     // Action done when the user choose "Legal" or "Illegal" in an ads
-    function doAction(value){
-        if(value==0){
+    function doAction(gain, id){
+        var currenttime = Date.now();
+        var deltatime = currenttime - starttime;
+        var level = {{level}};
+        var value = 0;
+
+        if(gain==0){
             var audio = document.getElementById("audio_lose");
-            audio.play()
+            audio.play();
+            displaySolution(id);
         }
         else{
             var audio = document.getElementById("audio_win");
-            audio.play()
+            audio.play();
+            value = parseInt(gain - (level+2 * (deltatime/1000))); // compute the score the user get
         }
-        var text = document.getElementById("wintxt");
-        text.innerHTML = "+" + String(value);// TODO : Depend on the difficulty and time
-        text.style.display = "block";
-        text.style.opacity = '1';
+
+        // Make the gain text disappear progressely 
         setTimeout(hideElement, 2000)
-        
         function hideElement() {
             text.style.opacity = '0';
         }
-        currentscore += value; // TODO : Depend on the difficulty and time
+
+        var text = document.getElementById("wintxt");
+        text.innerHTML = "+" + String(value);// value depend on the difficulty and time
+        text.style.display = "block";
+        text.style.opacity = '1';
+
+        currentscore += value; // value epend on the difficulty and time
         var score = document.getElementById("scoretxt");
         score.innerHTML = "Score : " + String(currentscore);// Put Value
+        if(gain==0){
+            setTimeout(function() {
+                removePopup(id);
+            }, 3000);
+        }
+        else{
+            removePopup(id);
+        }
     }
 
     // Function for the timer
-    var timerId= setInterval(()=>{getTime()},1000);
     function getTime(){
         timer += 1
         document.getElementById("timer").innerHTML = "Time : " + String(timer);
     }
+
+    function displaySolution(id){
+        for (i = 0; i < vectorLayer.features.length; i++) {
+            var idd = vectorLayer.features[i]['attributes']['description'][1];
+            if(id==idd){
+                console.log(id);
+                feature = vectorLayer.features[i];
+                var text = document.getElementById("slider");
+                text.innerHTML = "<div class='markerContent'><h2>Solution</h2>"
+                text.innerHTML += vectorLayer.features[i]['attributes']['description'][2];
+                text.innerHTML += "</div>"
+                break;
+            }
+        }
+    }
     
+    function checkFinish(){
+        if(vectorLayer.features.length == 0){
+            var finishpopup = document.getElementById("popup");
+            finishpopup.style.display = "block";
+            //Ask for the name of the user and open leaderboard
+        }
+    }
+
+    var timerId= setInterval(()=>{getTime()},1000);
+    setInterval(()=>{checkFinish()},500);
+    
+
+    // to send the username at the end of the game
+    function sendUsername(){
+        var value = document.getElementById("username").value;
+        var xmlHttp = new XMLHttpRequest();
+        var url = "/getusername/" + String(value)+"---"+String(currentscore)
+        xmlHttp.open( "GET", url, false ); // false for synchronous request
+        xmlHttp.send(null);
+        return xmlHttp.responseText;
+    }
+    var btn = document.getElementById("button");
+	btn.addEventListener("click", sendUsername);
 
 </script>

@@ -158,7 +158,6 @@ body {
     width: 50%;
 }
 
-
 .wintext{
     display: block;
     opacity: 0;
@@ -231,6 +230,32 @@ body {
     transition: 0.5s opacity;
 }   
 
+.username{
+    font-family: 'Muli', sans-serif;
+    font-size: large;
+    border-radius: 10px;
+    padding: 5px;
+    height: 40px;
+    background-color: rgb(234, 234, 234);
+    color:#3d3d3d;
+}
+
+.popup{
+    display: none;
+    z-index: 2000;
+    font-family: 'Muli', sans-serif; 
+    color: rgb(64, 64, 64);
+    background-color: white;
+    border-radius: 15px;
+    padding: 5px;
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+}
+
 .markerContent{
     font-family: 'Muli', sans-serif; 
     position:relative;
@@ -271,7 +296,6 @@ body {
     text-align: left;
     width:80%;
 }
-
 
 .but_legal {
     font-family: 'Muli', sans-serif; 
@@ -325,6 +349,25 @@ body {
     width: 430px;
 }
 
+.but_save{
+    display: inline;
+    height: 40px;
+    font-size: 15px;
+    color: white;
+    background-color: #a3d4ff;
+    border-width : 0;
+    text-align: center;
+    padding: 20px 40px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.but_save:hover{
+    background-color: #7bc1ff;
+}
+
+
 .but_play{
     height: 40px;
     font-size: 15px;
@@ -339,14 +382,6 @@ body {
 }
 
 .but_play:hover{
-    height: 40px;
-    
-    color: white;
     background-color: #7bc1ff;
-    border-width : 0;
-    height: 40px;
-    text-align: center;
     padding: 24px 200px;
-    border-radius: 10px;
-    text-decoration: none;
 }
