@@ -127,6 +127,9 @@
             var audio = document.getElementById("audio_win");
             audio.play();
             value = parseInt(gain - (level+2 * (deltatime/1000))); // compute the score the user get
+            if(value < 0){
+                value = 5;
+            }
         }
 
         // Make the gain text disappear progressely 
