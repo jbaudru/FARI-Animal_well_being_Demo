@@ -2,47 +2,15 @@
     "players": [
         {
             "pseudo": "Pierre",
-            "score": 1000
+            "score": 300
         },
         {
             "pseudo": "Paul",
             "score": 200
         },
         {
-            "pseudo": "Jean",
-            "score": 100
-        },
-        {
-            "pseudo": "Luc",
-            "score": 2000
-        },
-        {
-            "pseudo": "Rulio",
-            "score": 196
-        },
-        {
-            "pseudo": "Test",
-            "score": 99
-        },
-        {
-            "pseudo": "Test2",
-            "score": 198
-        },
-        {
-            "pseudo": "Oups",
-            "score": 198
-        },
-        {
-            "pseudo": "Yop",
-            "score": 195
-        },
-        {
-            "pseudo": "jbaudru",
-            "score": 178
-        },
-        {
-            "pseudo": "jbaudru",
-            "score": 178
+            "pseudo": "Julien",
+            "score": 89
         }
     ]
 }
