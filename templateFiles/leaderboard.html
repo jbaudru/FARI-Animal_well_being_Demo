@@ -57,12 +57,7 @@
         return dict;
     }
 
-    function addPlayer(name, score){
-        play[name] = score;
-    }
-
     play = convertPyDictInJSDict(play);
-    //addPlayer("Test", 2000);
     play = sortDict(play);    
     updateLeaderboard();
 

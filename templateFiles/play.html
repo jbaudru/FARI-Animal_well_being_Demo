@@ -47,44 +47,6 @@
 
 <script src="staticFiles/js/OpenLayers.js"></script>
 <script>
-    var currentscore = 0;
-    var zoom=11;
-    var starttime = undefined;
-    var ads = {{ads|tojson}};
-    var map = new OpenLayers.Map("m");
-    var level = {{level}};
-    var timer = 600; //10min (Eazy mode)
-    if(level==1){
-        timer=420; //7min (Normal mode)
-    }
-    else if(level==2){
-        timer=300; //5min (Hard mode)
-    }
-    
-    map.addLayer(new OpenLayers.Layer.OSM());
-    epsg4326 =  new OpenLayers.Projection("EPSG:4326"); //WGS 1984 projection
-    projectTo = map.getProjectionObject(); //The map projection (Spherical Mercator)
-    var lonLat = new OpenLayers.LonLat(4.350665, 50.848638).transform(epsg4326, projectTo);
-    map.setCenter(lonLat, zoom);
-    var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
-    
-    // Ads the different ads to the map
-    for (let i = 0; i < ads.length; i++) {
-        var feature = new OpenLayers.Feature.Vector(
-        new OpenLayers.Geometry.Point( ads[i]['lat'], ads[i]['long'] ).transform(epsg4326, projectTo),
-            {description: [ads[i]['description'], ads[i]['id'], ads[i]['error']]},
-            {externalGraphic: 'staticFiles/img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25}
-        );    
-        vectorLayer.addFeatures(feature);       
-    }
-
-    map.addLayer(vectorLayer);
-    
-    // Controler for click on the pin in the map
-    var controls = {
-      selector: new OpenLayers.Control.SelectFeature(vectorLayer, { onSelect: createPopup, onUnselect: destroyPopup })
-    };
-
     // Show the side window with the informations about the ad
     function createPopup(feature) {
         starttime = Date.now();
@@ -115,9 +77,6 @@
         destroyPopup(feature);
     }
     
-    map.addControl(controls['selector']);
-    controls['selector'].activate();
-    
     // Action done when the user choose "Legal" or "Illegal" in an ads
     function doAction(gain, id){
         var currenttime = Date.now();
@@ -126,29 +85,30 @@
         var value = 0;
 
         if(gain==0){
-            var audio = document.getElementById("audio_lose");
+            var audio = document.getElementById("audio_lose"); // Play lose sound
             audio.play();
             displaySolution(id);
         }
         else{
-            var audio = document.getElementById("audio_win");
+            var audio = document.getElementById("audio_win"); // Play win sound
             audio.play();
-            value = parseInt(gain - (level+2 * (deltatime/1000))); // compute the score the user get
+            value = parseInt(gain - (level+2 * (deltatime/1000))); // value depend on the difficulty and time
             if(value < 0){
-                value = 5;
+                value = 5; // If the answer is correct but the player took too much time he get 5 points in anycase
             }
         }
 
-        // Make the gain text disappear progressely 
-        setTimeout(hideElement, 2000)
+        var text = document.getElementById("wintxt");
+        if(value != 0){ // Show the gain win by the player if it is more than 0
+            text.innerHTML = "+" + String(value);
+            text.style.display = "block";
+            text.style.opacity = '1';
+        }
+
+        setTimeout(hideElement, 2000); // Make the gain text disappear progressely 
         function hideElement() {
             text.style.opacity = '0';
         }
-
-        var text = document.getElementById("wintxt");
-        text.innerHTML = "+" + String(value);// value depend on the difficulty and time
-        text.style.display = "block";
-        text.style.opacity = '1';
 
         currentscore += value; // value epend on the difficulty and time
         var score = document.getElementById("scoretxt");
@@ -163,7 +123,7 @@
         }
     }
 
-    // Function for the timer
+    // Function to decrement the timer
     function getTime(){
         if(timer>0){
             timer -= 1;
@@ -171,6 +131,7 @@
         document.getElementById("timer").innerHTML = "Time : " + String(timer);
     }
 
+    // Explain why the player's answer is wrong
     function displaySolution(id){
         for (i = 0; i < vectorLayer.features.length; i++) {
             var idd = vectorLayer.features[i]['attributes']['description'][1];
@@ -186,6 +147,7 @@
         }
     }
     
+    // Check if the game is finish
     function checkFinish(){
         if(vectorLayer.features.length == 0){
             var finishpopup = document.getElementById("popup");
@@ -197,11 +159,7 @@
         }
     }
 
-    var timerId= setInterval(()=>{getTime()},1000);
-    setInterval(()=>{checkFinish()},500);
-    
-
-    // to send the username at the end of the game
+    // Send the username and score at the end of the game to the server to update the leaderboard
     function sendUsername(){
         var value = document.getElementById("username").value;
         var xmlHttp = new XMLHttpRequest();
@@ -210,6 +168,54 @@
         xmlHttp.send(null);
         return xmlHttp.responseText;
     }
+
+    //=================================================================================
+    var currentscore = 0;
+    var zoom=11; // Zoom on the map
+    var starttime = undefined;
+    var ads = {{ads|tojson}}; // Set of ads
+    var map = new OpenLayers.Map("m");
+    var level = {{level}}; // Difficulty level
+    var timer = 600; // 10min (Eazy mode - Default)
+    if(level==1){
+        timer=420; // 7min (Normal mode)
+    }
+    else if(level==2){
+        timer=300; // 5min (Hard mode)
+    }
+    
+    // Map stuff
+    map.addLayer(new OpenLayers.Layer.OSM());
+    epsg4326 =  new OpenLayers.Projection("EPSG:4326"); //WGS 1984 projection
+    projectTo = map.getProjectionObject(); //The map projection (Spherical Mercator)
+    var lonLat = new OpenLayers.LonLat(4.350665, 50.848638).transform(epsg4326, projectTo);
+    map.setCenter(lonLat, zoom);
+    var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
+    
+    // Ads the different ads to the map
+    for (let i = 0; i < ads.length; i++) {
+        var feature = new OpenLayers.Feature.Vector(
+        new OpenLayers.Geometry.Point( ads[i]['lat'], ads[i]['long'] ).transform(epsg4326, projectTo),
+            {description: [ads[i]['description'], ads[i]['id'], ads[i]['error']]},
+            {externalGraphic: 'staticFiles/img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25}
+        );    
+        vectorLayer.addFeatures(feature);       
+    }
+
+    map.addLayer(vectorLayer);
+    
+    // Controler for click on the pin in the map
+    var controls = {
+      selector: new OpenLayers.Control.SelectFeature(vectorLayer, { onSelect: createPopup, onUnselect: destroyPopup })
+    };
+    map.addControl(controls['selector']);
+    controls['selector'].activate();
+
+    // Timer and end game conditions
+    var timerId= setInterval(()=>{getTime()},1000);
+    setInterval(()=>{checkFinish()},500);
+
+    // Check when the player send its username
     var btn = document.getElementById("button");
 	btn.addEventListener("click", sendUsername);
 
