@@ -48,11 +48,18 @@
 <script src="staticFiles/js/OpenLayers.js"></script>
 <script>
     var currentscore = 0;
-    var timer = 0;
     var zoom=11;
     var starttime = undefined;
     var ads = {{ads|tojson}};
     var map = new OpenLayers.Map("m");
+    var level = {{level}};
+    var timer = 600; //10min (Eazy mode)
+    if(level==1){
+        timer=420; //7min (Normal mode)
+    }
+    else if(level==2){
+        timer=300; //5min (Hard mode)
+    }
     
     map.addLayer(new OpenLayers.Layer.OSM());
     epsg4326 =  new OpenLayers.Projection("EPSG:4326"); //WGS 1984 projection
@@ -158,7 +165,9 @@
 
     // Function for the timer
     function getTime(){
-        timer += 1
+        if(timer>0){
+            timer -= 1;
+        }
         document.getElementById("timer").innerHTML = "Time : " + String(timer);
     }
 
@@ -181,7 +190,10 @@
         if(vectorLayer.features.length == 0){
             var finishpopup = document.getElementById("popup");
             finishpopup.style.display = "block";
-            //Ask for the name of the user and open leaderboard
+        }
+        if(timer==0){
+            var finishpopup = document.getElementById("popup");
+            finishpopup.style.display = "block";
         }
     }
 

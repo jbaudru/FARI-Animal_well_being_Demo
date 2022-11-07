@@ -1,32 +1,8 @@
 {
     "players": [
         {
-            "pseudo": "Pierre",
-            "score": 300
-        },
-        {
-            "pseudo": "Paul",
-            "score": 200
-        },
-        {
             "pseudo": "Julien",
             "score": 89
-        },
-        {
-            "pseudo": "jbaudru",
-            "score": 188
-        },
-        {
-            "pseudo": "Julien",
-            "score": 84
-        },
-        {
-            "pseudo": "I did my best",
-            "score": 966
-        },
-        {
-            "pseudo": "Test",
-            "score": 1067
         }
     ]
 }
