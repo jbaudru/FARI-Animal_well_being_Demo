@@ -277,6 +277,10 @@ body {
     padding: 5px;
 }
 
+.soluttext{
+    color: red;
+}
+
 .ruletext{
     text-align: left;
     margin-left: 0  ;

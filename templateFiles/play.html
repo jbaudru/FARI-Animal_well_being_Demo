@@ -139,7 +139,8 @@
                 console.log(id);
                 feature = vectorLayer.features[i];
                 var text = document.getElementById("slider");
-                text.innerHTML = "<div class='markerContent'><h2>Solution</h2>"
+                text.innerHTML = "<div class='markerContent'><h2 class='soluttext'>Wrong!</h2>"
+                text.innerHTML += "<p class='description'>The AI chose the other solution because of the following reason:</p>"
                 text.innerHTML += vectorLayer.features[i]['attributes']['description'][2];
                 text.innerHTML += "</div>"
                 break;

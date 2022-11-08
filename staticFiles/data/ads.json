@@ -139,6 +139,41 @@
             "long": 50.949900,
             "id": 19,
             "error": "<p class='description'> <p class='adtext'>It is forbidden to sell animals on Facebook Marketplace.</p></p>"
+        },
+        {
+            "description": "<div class='markerContent'><h2>Baby guinea pigs</h2><img class='imag' src='staticFiles/img/animals/29.png' alt=''><br> <small> <p class='description'> <p class='adtext'><b>Seller: </b>Julio</p> <p class='adtext'><b>Description: </b>Young guinea pig, if you intend to get it, it is strongly advised to already have a first guinea pig at home to avoid it a feeling of loneliness.</p> <p class='adtext'><b>HK number: </b>HK19188458</p> <p class='adtext'><b>Website: </b>1000Annonce.be</p> </p> </small> <input type='button' class='but_legal' value='Legal' onclick='doAction(0, 20)'> <input type='button' class='but_illegal' value='Illegal' onclick='doAction(100, 20)'> </div>",
+            "lat": 4.50,
+            "long": 50.78000,
+            "id": 20,
+            "error": "<p class='description'> <p class='adtext'>No legal mention in the description.</p></p>"
+        },
+        {
+            "description": "<div class='markerContent'><h2>American Stafford puppies</h2><img class='imag' src='staticFiles/img/animals/30.png' alt=''><br> <small> <p class='description'> <p class='adtext'><b>Seller: </b>Dogcatandco</p> <p class='adtext'><b>Description: </b>Hello, we have a beautiful litter of American Staffordshire Terrier puppies who are looking for a nice home The puppies have a Belgian passport and are chipped and registered and have had their necessary vaccinations regularly dewormed, written guarantee on hereditary disorders, would you like to visit these beautiful puppies and parents you can call us or send us a text message. <br><br><i>An animal is a sentient living being and not a toy. The purchase or adoption of an animal is done in full awareness of the responsibilities of its new owner. Abandonment or negligence of an animal is an offence subject to criminal or administrative prosecution.</i></p> <p class='adtext'><b>HK number: </b>HK14215287</p> <p class='adtext'><b>Website: </b>2ememain.be</p> </p> </small> <input type='button' class='but_legal' value='Legal' onclick='doAction(0, 21)'> <input type='button' class='but_illegal' value='Illegal' onclick='doAction(100, 21)'> </div>",
+            "lat": 4.40,
+            "long": 50.900,
+            "id": 21,
+            "error": "<p class='description'> <p class='adtext'>More than one animal in the picture of the ad.</p></p>"
+        },
+        {
+            "description": "<div class='markerContent'><h2>Biewer Yorkshire puppies</h2><img class='imag' src='staticFiles/img/animals/31.png' alt=''><br> <small> <p class='description'> <p class='adtext'><b>Seller: </b>Fred & Nath</p> <p class='adtext'><b>Description: </b> This adorable Yorkshire is looking for a family to take him in. All dogs are equipped with the necessary: 3x vaccinations (also kennel cough), dewormed and without chips, European passport, microchip, identification and registration and a written guarantee of 2 years.</p> <p class='adtext'><b>HK number: </b>HK18876653</p><p class='adtext'><b>Website: </b>2ememain.be</p> </p> </small> <input type='button' class='but_legal' value='Legal' onclick='doAction(0, 22)'> <input type='button' class='but_illegal' value='Illegal' onclick='doAction(100, 22)'> </div>",
+            "lat": 4.335,
+            "long": 50.83500,
+            "id": 22,
+            "error": "<p class='description'> <p class='adtext'>No legal mention in the description.</p></p>"
+        },
+        {
+            "description": "<div class='markerContent'><h2>Maincoon kittens</h2><img class='imag' src='staticFiles/img/animals/32.png' alt=''><br> <small> <p class='description'> <p class='adtext'><b>Seller: </b>Cathy</p> <p class='adtext'><b>Description: </b>Main coon kittens from tested parents,are vaccinated 2 times, dewormed, microchipped and registered, european passport, spayed or neutered, they are home raised and walk around freely, they also get a nice kitten pack when they leave.<br><br><i>An animal is a sentient living being and not a toy. The purchase or adoption of an animal is done in full awareness of the responsibilities of its new owner. Abandonment or negligence of an animal is an offence subject to criminal or administrative prosecution.</i></p> <p class='adtext'><b>HK number: </b></p> <p class='adtext'><b>Website: </b>2ememain.be</p> </p> </small> <input type='button' class='but_legal' value='Legal' onclick='doAction(0, 23)'> <input type='button' class='but_illegal' value='Illegal' onclick='doAction(100, 23)'> </div>",
+            "lat": 4.43,
+            "long": 50.8050000,
+            "id": 23,
+            "error": "<p class='description'> <p class='adtext'>No HK number in the content of the ad.</p></p>"
+        },
+        {
+            "description": "<div class='markerContent'><h2>Dalmatian puppies ready for departure</h2><img class='imag' src='staticFiles/img/animals/33.png' alt=''><br> <small> <p class='description'> <p class='adtext'><b>Seller: </b>Eryko Doggo</p> <p class='adtext'><b>Description: </b>This young Dalmatian is waiting for you to be happy. He has been chipped and vaccinated, moreover he has an impeccable pedigree.<br><br><i>An animal is a sentient living being and not a toy. The purchase or adoption of an animal is done in full awareness of the responsibilities of its new owner. Abandonment or negligence of an animal is an offence subject to criminal or administrative prosecution.</i></p> <p class='adtext'><b>HK number: </b>HK13100458</p> <p class='adtext'><b>Website: </b>2ememain.be</p> </p> </small> <input type='button' class='but_legal' value='Legal' onclick='doAction(100, 24)'> <input type='button' class='but_illegal' value='Illegal' onclick='doAction(0, 24)'> </div>",
+            "lat": 4.385,
+            "long": 50.79500,
+            "id": 24,
+            "error": "<p class='description'> <p class='adtext'>This ad is totally legal !</p></p>"
         }
     ]
 }
