@@ -21,7 +21,7 @@
         <ul>
             <li class="current"><a href="{{url_for('play')}}">Restart</a></li>
             <li><a href="{{url_for('leaderboard')}}">Leaderboard</a></li>
-            <li><a href="{{url_for('home')}}">Rules</a></li>
+            <li><a id="home" href="{{url_for('home')}}">Rules</a></li>
         </ul>
     </div>
 
@@ -30,8 +30,11 @@
     <div id="marker" title="Marker"></div>
 
     <div id="popup" class="popup"> 
-        <h1>Finish</h1>
-        <p>Choose an username</p>
+        <h1>Game over</h1>
+        <p>Your score : <b id="show_score"></b> </p>
+        <p>Your accuracy : <b id="show_acc"></b> </p>
+        <br>
+        <p><b>Choose an username:</b></p>
 
         <input class="username" type="text" id="username" name="username">
         <a id="button"class="but_save" href="{{url_for('leaderboard')}}">Save</a>
@@ -74,7 +77,6 @@
             }
         }
         vectorLayer.removeFeatures(feature);
-        destroyPopup(feature);
     }
     
     // Action done when the user choose "Legal" or "Illegal" in an ads
@@ -85,17 +87,20 @@
         var value = 0;
 
         if(gain==0){
+            wrong_answers += 1;
             var audio = document.getElementById("audio_lose"); // Play lose sound
             audio.play();
-            displaySolution(id);
+            displaySolution(id, 0);
         }
         else{
+            good_answers += 1;
             var audio = document.getElementById("audio_win"); // Play win sound
             audio.play();
             value = parseInt(gain - (level+2 * (deltatime/1000))); // value depend on the difficulty and time
             if(value < 0){
                 value = 5; // If the answer is correct but the player took too much time he get 5 points in anycase
             }
+            displaySolution(id, 1);
         }
 
         var text = document.getElementById("wintxt");
@@ -113,14 +118,8 @@
         currentscore += value; // value epend on the difficulty and time
         var score = document.getElementById("scoretxt");
         score.innerHTML = "Score : " + String(currentscore);// Put Value
-        if(gain==0){
-            setTimeout(function() {
-                removePopup(id);
-            }, 3000);
-        }
-        else{
-            removePopup(id);
-        }
+        
+        removePopup(id);
     }
 
     // Function to decrement the timer
@@ -132,31 +131,75 @@
     }
 
     // Explain why the player's answer is wrong
-    function displaySolution(id){
+    function displaySolution(id, solution){
         for (i = 0; i < vectorLayer.features.length; i++) {
             var idd = vectorLayer.features[i]['attributes']['description'][1];
             if(id==idd){
-                console.log(id);
                 feature = vectorLayer.features[i];
                 var text = document.getElementById("slider");
-                text.innerHTML = "<div class='markerContent'><h2 class='soluttext'>Wrong!</h2>"
-                text.innerHTML += "<p class='description'>The AI chose the other solution because of the following reason:</p>"
-                text.innerHTML += vectorLayer.features[i]['attributes']['description'][2];
-                text.innerHTML += "</div>"
+                text.innerHTML = "<button class='but_close' onclick='closeSolution()'>x</button>";
+               
+                var iderror = vectorLayer.features[i]['attributes']['description'][3]
+                text.scrollTo(0, 0);
+                if(solution==0){
+                    text.innerHTML += "<div class='markerContent'><h2 class='soluttext_w'>False!</h2>"
+                    text.innerHTML += "<hr>"
+                    text.innerHTML += "<b><p class='description'>The AI chose the other solution because of the following reason:</p></b>"
+                    text.innerHTML += vectorLayer.features[i]['attributes']['description'][2];
+                    text.innerHTML += "<hr>"
+                    text.innerHTML += "<b><p class='description'>Steps made by the AI to classify this ads:</p></b>";
+                    text.innerHTML += vectorLayer.features[i]['attributes']['description'][3];
+                    text.innerHTML += "</div>"
+                }
+                else{
+                    text.innerHTML += "<div class='markerContent'><h2 class='soluttext_r'>Correct!</h2>";
+                    text.innerHTML += "<hr>"
+                    text.innerHTML += "<b><p class='description'>You choose the correct anwser because:</p></b>";
+                    text.innerHTML += vectorLayer.features[i]['attributes']['description'][2];
+                    text.innerHTML += "<hr>"
+                    text.innerHTML += "<b><p class='description'>Steps made by the AI to classify this ads:</p></b>";
+                    text.innerHTML += vectorLayer.features[i]['attributes']['description'][3];
+                    text.innerHTML += "</div>"
+                }
+                
                 break;
             }
         }
     }
     
+    function closeSolution(){
+        var text = document.getElementById("slider");
+        //text.innerHTML = feature.attributes.description;
+        text.style.opacity = '0';
+    }
+
     // Check if the game is finish
     function checkFinish(){
-        if(vectorLayer.features.length == 0){
-            var finishpopup = document.getElementById("popup");
-            finishpopup.style.display = "block";
+        if(vectorLayer.features.length == 0 || timer==0){ // Time over or all the ads classified
+            if(game_over==0){
+                finishtime = Date.now();
+                game_over = 1;
+                var finishpopup = document.getElementById("popup");
+                finishpopup.style.display = "block";
+                var finalscore = document.getElementById("show_score");
+                finalscore.innerHTML+= currentscore;
+                var finalaccuracy = document.getElementById("show_acc");
+                var accuracy = good_answers / (good_answers + wrong_answers);
+                finalaccuracy.innerHTML += Number((accuracy*100).toFixed(1)) + "%";
+                var map = document.getElementById("m")
+                map.style.pointerEvents = 'none';
+                closeSolution();
+            }
+            
+            
         }
-        if(timer==0){
-            var finishpopup = document.getElementById("popup");
-            finishpopup.style.display = "block";
+        if(game_over==1){ // Once the game is over we wait for the user input (username)
+            var currenttime = Date.now();
+            var deltatime = currenttime - finishtime;
+            if(deltatime > 60000){ // If after 1mim the user doesn't enter any name we redirect to the starting page
+                var btn = document.getElementById("home");
+                btn.click();
+            }
         }
     }
 
@@ -172,8 +215,11 @@
 
     //=================================================================================
     var currentscore = 0;
+    var game_over=0;
+    var good_answers = 0; var wrong_answers = 0;
     var zoom=11; // Zoom on the map
     var starttime = undefined;
+    var finishtime = undefined;
     var ads = {{ads|tojson}}; // Set of ads
     var map = new OpenLayers.Map("m");
     var level = {{level}}; // Difficulty level
@@ -197,7 +243,7 @@
     for (let i = 0; i < ads.length; i++) {
         var feature = new OpenLayers.Feature.Vector(
         new OpenLayers.Geometry.Point( ads[i]['lat'], ads[i]['long'] ).transform(epsg4326, projectTo),
-            {description: [ads[i]['description'], ads[i]['id'], ads[i]['error']]},
+            {description: [ads[i]['description'], ads[i]['id'], ads[i]['error'], ads[i]['whereError']]},
             {externalGraphic: 'staticFiles/img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25}
         );    
         vectorLayer.addFeatures(feature);       
@@ -219,5 +265,6 @@
     // Check when the player send its username
     var btn = document.getElementById("button");
 	btn.addEventListener("click", sendUsername);
+
 
 </script>

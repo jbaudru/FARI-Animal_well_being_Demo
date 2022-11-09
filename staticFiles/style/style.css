@@ -277,8 +277,32 @@ body {
     padding: 5px;
 }
 
-.soluttext{
+.soluttext_w{
     color: red;
+    font-size: xx-large;
+}
+
+.soluttext_r{
+    color: green;
+    font-size: xx-large;
+}
+
+.solutsquare_w{ 
+    border:1px solid red;
+    border-width: 5px;
+}
+
+.solutsquare_r{ 
+    border:1px solid green;
+    border-width: 5px;
+}
+
+hr {
+    width: 80%;
+    height: 5px;
+    border-radius:10px;
+    border-width: 0;
+    background-color: #d8d8d8;
 }
 
 .ruletext{
@@ -370,6 +394,28 @@ body {
 .but_save:hover{
     background-color: #7bc1ff;
 }
+
+
+.but_close{
+    z-index: 4000;
+
+    display: inline;
+
+    font-size: 15px;
+    color: white;
+    background-color: #ff8f8f;
+    border-width : 0;
+    text-align: center;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.but_close:hover{
+    background-color: #ff3c3c;
+}
+
 
 
 .but_play{
