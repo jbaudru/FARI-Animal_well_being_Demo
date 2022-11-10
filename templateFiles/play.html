@@ -31,8 +31,8 @@
 
     <div id="popup" class="popup"> 
         <h1>Game over</h1>
-        <p>Your score : <b id="show_score"></b> </p>
-        <p>Your accuracy : <b id="show_acc"></b> </p>
+        <p>Your score : <b id="show_score"></b> | Your accuracy : <b id="show_acc"></b> </p>
+        <p>AI score : <b id="show_score_AI"></b> | AI accuracy : <b id="show_acc_AI"></b> </p>
         <br>
         <p><b>Choose an username:</b></p>
 
@@ -45,6 +45,7 @@
 
     <audio id="audio_win" src="staticFiles/audio/win.mp3"></audio>
     <audio id="audio_lose" src="staticFiles/audio/lose.mp3"></audio>
+    <audio id="audio_click" src="staticFiles/audio/ai_click.mp3"></audio>
 </body>
 </html>
 
@@ -60,10 +61,15 @@
     }
 
     // Hide the side window with the informations about the ad
-    function destroyPopup(feature) {
+    function destroyPopup() {
         var text = document.getElementById("slider");
-        text.innerHTML = feature.attributes.description;
         text.style.opacity = '0';
+    }
+
+    // Show the side window the informations about the ad
+    function showPopup(){
+        var text = document.getElementById("slider");
+        text.style.opacity = '1';
     }
 
     // Remove the popup from the map once the user classify it
@@ -88,14 +94,12 @@
 
         if(gain==0){
             wrong_answers += 1;
-            var audio = document.getElementById("audio_lose"); // Play lose sound
-            audio.play();
+            audio_lose.play();
             displaySolution(id, 0);
         }
         else{
             good_answers += 1;
-            var audio = document.getElementById("audio_win"); // Play win sound
-            audio.play();
+            audio_win.play();
             value = parseInt(gain - (level+2 * (deltatime/1000))); // value depend on the difficulty and time
             if(value < 0){
                 value = 5; // If the answer is correct but the player took too much time he get 5 points in anycase
@@ -120,6 +124,39 @@
         score.innerHTML = "Score : " + String(currentscore);// Put Value
         
         removePopup(id);
+    }
+
+    // When the fake AI is playing
+    function AIdoAction(gain, id){
+        var currenttime = Date.now();
+        var deltatime = currenttime - starttime;
+        var level = {{level}};
+        var value = 0;
+
+        if(gain==0){
+            AI_wrong_answers += 1;
+            displaySolution(id, 0);
+        }
+        else{
+            AI_good_answers += 1;
+            value = parseInt(gain - (level+2 * (deltatime/1000))); // value depend on the difficulty and time
+            displaySolution(id, 1);
+        }
+        var text = document.getElementById("wintxt");
+        if(value != 0){ // Show the gain win by the player if it is more than 0
+            text.innerHTML = "+" + String(value);
+            text.style.display = "block";
+            text.style.opacity = '1';
+        }
+        setTimeout(hideElement, 300); // Make the gain text disappear progressely 
+        function hideElement() {
+            text.style.opacity = '0';
+        }
+
+        AI_currentscore += value; // value epend on the difficulty and time
+        var score = document.getElementById("scoretxt");
+        score.innerHTML = "Score : " + String(AI_currentscore);// Put Value    
+        
     }
 
     // Function to decrement the timer
@@ -169,7 +206,6 @@
     
     function closeSolution(){
         var text = document.getElementById("slider");
-        //text.innerHTML = feature.attributes.description;
         text.style.opacity = '0';
     }
 
@@ -185,18 +221,18 @@
                 finalscore.innerHTML+= currentscore;
                 var finalaccuracy = document.getElementById("show_acc");
                 var accuracy = good_answers / (good_answers + wrong_answers);
+                if(isNaN(accuracy)){accuracy=0;}
                 finalaccuracy.innerHTML += Number((accuracy*100).toFixed(1)) + "%";
                 var map = document.getElementById("m")
                 map.style.pointerEvents = 'none';
                 closeSolution();
             }
-            
-            
         }
         if(game_over==1){ // Once the game is over we wait for the user input (username)
+            resetMap();
             var currenttime = Date.now();
             var deltatime = currenttime - finishtime;
-            if(deltatime > 60000){ // If after 1mim the user doesn't enter any name we redirect to the starting page
+            if(deltatime > 90000){ // If after 1min30 the user doesn't enter any name we redirect to the starting page
                 var btn = document.getElementById("home");
                 btn.click();
             }
@@ -213,17 +249,71 @@
         return xmlHttp.responseText;
     }
 
+
+    function resetMap(){
+        // Put back all the ads on the map
+        vectorLayer = new OpenLayers.Layer.Vector("Overlay");
+        for (let i = 0; i < ads.length; i++) {
+            var feature = new OpenLayers.Feature.Vector(
+            new OpenLayers.Geometry.Point( ads[i]['lat'], ads[i]['long'] ).transform(epsg4326, projectTo),
+                {description: [ads[i]['description'], ads[i]['id'], ads[i]['error'], ads[i]['whereError']]},
+                {externalGraphic: 'staticFiles/img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25}
+            );    
+            vectorLayer.addFeatures(feature);       
+        }
+        map.addLayer(vectorLayer);
+    }
+
+    function randomIntFromInterval(min, max) { // min and max included 
+        return Math.floor(Math.random() * (max - min + 1) + min)
+    }
+
+    // When the player has finished the game, the fake AI take its turn
+    function PlayAI(){
+        if(game_over==1){
+            if(AI_current_ad_id < vectorLayer.features.length){
+                createPopup(vectorLayer.features[AI_current_ad_id]);
+                rndInt = randomIntFromInterval(0, vectorLayer.features.length)
+                if(rndInt==0){ // Fake AI make an error
+                    AIdoAction(0, AI_current_ad_id); 
+                }
+                else{
+                    AIdoAction(100, AI_current_ad_id);
+                }
+                AI_current_ad_id += 1;
+            }
+            else{
+                closeSolution();
+            }
+        }
+        var finalscore = document.getElementById("show_score_AI");
+        finalscore.innerHTML= AI_currentscore;
+        var finalaccuracy = document.getElementById("show_acc_AI");
+        var accuracy = AI_good_answers / (AI_good_answers + AI_wrong_answers);
+        if(isNaN(accuracy)){accuracy=0;}
+        finalaccuracy.innerHTML = Number((accuracy*100).toFixed(1)) + "%";
+    }
+
+    
+
     //=================================================================================
     var currentscore = 0;
+    var AI_currentscore = 0;
+    var AI_current_ad_id = 0;
     var game_over=0;
     var good_answers = 0; var wrong_answers = 0;
+    var AI_good_answers = 0; var AI_wrong_answers = 0;
     var zoom=11; // Zoom on the map
     var starttime = undefined;
     var finishtime = undefined;
     var ads = {{ads|tojson}}; // Set of ads
     var map = new OpenLayers.Map("m");
+    var audio_lose = document.getElementById("audio_lose"); // Play lose sound
+    var audio_win = document.getElementById("audio_win"); // Play win sound
+    var audio_click = document.getElementById("audio_click");
+
     var level = {{level}}; // Difficulty level
-    var timer = 600; // 10min (Eazy mode - Default)
+    var timer = 4;//600; // 10min (Eazy mode - Default)
     if(level==1){
         timer=420; // 7min (Normal mode)
     }
@@ -239,17 +329,7 @@
     map.setCenter(lonLat, zoom);
     var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
     
-    // Ads the different ads to the map
-    for (let i = 0; i < ads.length; i++) {
-        var feature = new OpenLayers.Feature.Vector(
-        new OpenLayers.Geometry.Point( ads[i]['lat'], ads[i]['long'] ).transform(epsg4326, projectTo),
-            {description: [ads[i]['description'], ads[i]['id'], ads[i]['error'], ads[i]['whereError']]},
-            {externalGraphic: 'staticFiles/img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25}
-        );    
-        vectorLayer.addFeatures(feature);       
-    }
-
-    map.addLayer(vectorLayer);
+    resetMap();
     
     // Controler for click on the pin in the map
     var controls = {
@@ -258,11 +338,12 @@
     map.addControl(controls['selector']);
     controls['selector'].activate();
 
-    // Timer and end game conditions
-    var timerId= setInterval(()=>{getTime()},1000);
-    setInterval(()=>{checkFinish()},500);
 
-    // Check when the player send its username
+    // Timer and end game conditions
+    setInterval(()=>{getTime()},1000);
+    setInterval(()=>{checkFinish()},500);
+    setInterval(()=>{PlayAI()},500);
+    
     var btn = document.getElementById("button");
 	btn.addEventListener("click", sendUsername);
 
