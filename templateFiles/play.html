@@ -3,11 +3,9 @@
 <title>FARI - Animal welfare</title>
 <link rel = "icon" href ="staticFiles/img/marker.png" type = "image/x-icon">
 <html lang="en">
-
 <head>
     <link rel="stylesheet" href="staticFiles/style/style.css">
 </head>
-
 <body>
     <div>
         <h1 id="wintxt" class="wintext">+100</h1>
@@ -179,7 +177,7 @@
                 var iderror = vectorLayer.features[i]['attributes']['description'][3]
                 text.scrollTo(0, 0);
                 if(solution==0){
-                    text.innerHTML += "<div class='markerContent'><h2 class='soluttext_w'>False!</h2>"
+                    text.innerHTML += "<div class='markerContent'><h2 class='soluttext_w'>Wrong!</h2>"
                     text.innerHTML += "<hr>"
                     text.innerHTML += "<b><p class='description'>The AI chose the other solution because of the following reason:</p></b>"
                     text.innerHTML += vectorLayer.features[i]['attributes']['description'][2];
@@ -313,7 +311,7 @@
     var audio_click = document.getElementById("audio_click");
 
     var level = {{level}}; // Difficulty level
-    var timer = 4;//600; // 10min (Eazy mode - Default)
+    var timer = 600; // 10min (Eazy mode - Default)
     if(level==1){
         timer=420; // 7min (Normal mode)
     }

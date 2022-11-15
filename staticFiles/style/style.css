@@ -11,7 +11,7 @@ body {
 .title{
     font-family: 'Quicksand', sans-serif;
     font-size: x-large;
-    color:#a3d4ff;
+    color:#7bc1ff;
     text-align: center;
 }
 
@@ -254,6 +254,7 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 40%;
+    box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.2);
 }
 
 .markerContent{
@@ -434,4 +435,31 @@ hr {
 .but_play:hover{
     background-color: #7bc1ff;
     padding: 24px 200px;
+}
+
+.downarrow{
+    margin-left: calc( 100% - 30px );
+
+    display: inline-block;
+
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    
+    text-align: center;
+    font-family: 'Muli', sans-serif; 
+    text-decoration: none;
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+
+    color: white;
+    background-color: #a3d4ff;
+    border-radius: 10px;
+}
+
+.downarrow:hover{
+    background-color: #7bc1ff;
+    transition: 0.5s;
+    
 }
