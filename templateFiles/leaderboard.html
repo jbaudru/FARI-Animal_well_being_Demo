@@ -35,6 +35,7 @@
 <script>
     var play = {{players | tojson}}; //Move the Python dict into JS object
 
+    // Put the new names and score in the leaderboard
     function updateLeaderboard(){
         var text = document.getElementById("leaderboard");
         for (const [key, value] of Object.entries(play)) {
@@ -42,6 +43,7 @@
         }
     }
 
+    // Sort the dictionnary of username:score by decreasing score
     function sortDict(dict) {
         const sortable = Object.fromEntries(
             Object.entries(dict).sort(([,a],[,b]) => b-a)
@@ -49,6 +51,7 @@
         return sortable;
     }
 
+    // Convert a Python dict into a JavaScript dict strucutre
     function convertPyDictInJSDict(pydict){
         var dict = {}
         for (let i = 0; i < pydict.length; i++) {

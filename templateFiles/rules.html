@@ -121,6 +121,7 @@
 </html>
 
 <script>
+    // Send the difficulty choose by the player to the Flask server
     function sendDifficulty(){
         var select = document.getElementById('difficulty');
         var value = select.options[select.selectedIndex].value;
@@ -130,6 +131,7 @@
         xmlHttp.send(null);
         return xmlHttp.responseText;
     }
+    
     var btn = document.getElementById("button");
 	btn.addEventListener("click", sendDifficulty);
 
