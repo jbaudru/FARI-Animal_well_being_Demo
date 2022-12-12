@@ -16,7 +16,6 @@
     <div class="topbar" href="home">
         <img class="logo" src="staticFiles/img/logo.png" alt="FARI Institute">
         <ul>
-            <li class="current"><a href="{{url_for('play')}}">Play</a></li>
             <li><a href="{{url_for('leaderboard')}}">Leaderboard</a></li>
             <li><a id="home" href="{{url_for('home')}}">Rules</a></li>
             <li class="quit"><a id="home" href="{{url_for('leaderboard')}}">Exit</a></li>
@@ -228,7 +227,7 @@
                 var finalscore = document.getElementById("show_score");
                 finalscore.innerHTML+= currentscore;
                 var finaltime = document.getElementById("show_time");
-                var timetaken = Math.round((finishtime-starttime)/60/60); // sec
+                var timetaken = Math.round((finishtime-starttime)/60/60); // min
                 if(timetaken < 1){
                     var timetaken = Math.round((finishtime-starttime)/60); // sec
                     finaltime.innerHTML+= timetaken + " seconds";
