@@ -59,6 +59,17 @@ body {
     transition: 0.2s;
 }
 
+.topbar .quit a {
+    text-align: center;
+    border-radius: 10px;
+    display:flex;
+    color: rgb(255, 61, 61);
+    padding: 14px 16px;
+    text-decoration: none;
+
+    transition: 0.2s;
+}
+
 /* Change the link color to #111 (black) on hover */
 .topbar li a:hover {
     background-color: whitesmoke;
@@ -195,7 +206,7 @@ body {
     color:#3d3d3d;
     z-index: 99;
     text-align: right;
-    margin-left: calc( 100% - 205px );
+    margin-left: calc( 100% - 220px );
     margin-top: 0px;
     position: absolute;
 
@@ -217,7 +228,6 @@ body {
     z-index: 200;
     opacity: 0;
     
-    width: 370px;
     height: calc( 100vh - 80px );
     
     overflow-y: auto;
@@ -260,7 +270,7 @@ body {
 .markerContent{
     font-family: 'Muli', sans-serif; 
     position:relative;
-    width: 370px;
+    width: 500px;
     color: rgb(64, 64, 64);
     background-color: white;
     opacity: 90%;
@@ -400,8 +410,6 @@ hr {
 .but_close{
     z-index: 4000;
 
-    display: inline;
-
     font-size: 15px;
     color: white;
     background-color: #ff8f8f;
@@ -415,6 +423,28 @@ hr {
 
 .but_close:hover{
     background-color: #ff3c3c;
+}
+
+.but_next{
+    z-index: 4000;
+
+    
+    float: right;
+    
+
+    font-size: 15px;
+    color: white;
+    background-color: #a3d4ff;
+    border-width : 0;
+    text-align: center;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.but_next:hover{
+    background-color: #7bc1ff;
 }
 
 

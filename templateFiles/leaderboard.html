@@ -5,18 +5,20 @@
 <html lang="en">
 
 <head>
-    <script type="text/json" src="staticFiles/data/leaderboard.json"></script>
     <link rel="stylesheet" href="staticFiles/style/style.css">
-    <style>
-        body {
-        font-family: "Sofia", sans-serif;
-        }
-    </style>
 </head>
 
 <body>
 
-    <img class="logo" src="staticFiles/img/logo.png" alt="FARI Institute">
+    <div class="topbar" href="home">
+        <img class="logo" src="staticFiles/img/logo.png" alt="FARI Institute">
+        <ul>
+            <li><a href="{{url_for('play')}}">Play</a></li>
+            <li class="current"><a href="{{url_for('leaderboard')}}">Leaderboard</a></li>
+            <li><a id="home" href="{{url_for('home')}}">Rules</a></li>
+        </ul>
+    </div>
+    
 
     <div class="score">
         <br>

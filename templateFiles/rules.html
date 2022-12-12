@@ -6,15 +6,18 @@
 
 <head>
     <link rel="stylesheet" href="staticFiles/style/style.css">
-    <style>
-        body {
-        font-family: "Sofia", sans-serif;
-        }
-    </style>
 </head>
 
 <body>
-    <img class="logo" src="staticFiles/img/logo.png" alt="FARI Institute">
+    <div class="topbar" href="home">
+        <img class="logo" src="staticFiles/img/logo.png" alt="FARI Institute">
+        <ul>
+            <li><a href="{{url_for('play')}}">Play</a></li>
+            <li><a href="{{url_for('leaderboard')}}">Leaderboard</a></li>
+            <li class="current"><a id="home" href="{{url_for('home')}}">Rules</a></li>
+        </ul>
+        
+    </div>
     
     <br>
     <br>
@@ -76,7 +79,7 @@
                 </li>
                 <br>
                 <li class="ruletext">
-                    All ads must include a unique approval number for the seller, which always begins with the two letters HK followed by 8 digits (ex.: HK12224566).
+                    All ads must include a unique approval number for the seller, which always begins with the two letters HK.
                 </li>
                 <br>
                 <li class="ruletext">

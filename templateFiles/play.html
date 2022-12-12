@@ -12,14 +12,14 @@
         <h1 id="scoretxt" class="scoretext">Score : 0</h1>
         <h1 id="timer" class="timetext">Time : 0</h1>
     </div>
-    
-    <img class="logo" src="staticFiles/img/logo.png" alt="FARI Institute">
 
     <div class="topbar" href="home">
+        <img class="logo" src="staticFiles/img/logo.png" alt="FARI Institute">
         <ul>
-            <li class="current"><a href="{{url_for('play')}}">Restart</a></li>
+            <li class="current"><a href="{{url_for('play')}}">Play</a></li>
             <li><a href="{{url_for('leaderboard')}}">Leaderboard</a></li>
             <li><a id="home" href="{{url_for('home')}}">Rules</a></li>
+            <li class="quit"><a id="home" href="{{url_for('leaderboard')}}">Exit</a></li>
         </ul>
     </div>
 
@@ -31,6 +31,12 @@
         <h1>Game over</h1>
         <p>Your score : <b id="show_score"></b> | Your accuracy : <b id="show_acc"></b> </p>
         <p>AI score : <b id="show_score_AI"></b> | AI accuracy : <b id="show_acc_AI"></b> </p>
+        
+        <p>
+        As you have seen the algorithm is quicker than human.<br>
+        Indeed, you took <b id="show_time"></b> to classify the adds, the algo took <b>6 seconds</b>.<br>
+        This is the main advantage of blablabla....
+        </p>
         <br>
         <p><b>Choose an username:</b></p>
 
@@ -55,7 +61,7 @@
         var text = document.getElementById("slider");
         text.innerHTML = feature.attributes.description[0];
         text.style.opacity = '1';
-        text.style.marginLeft = 'calc(100% - 385px)';
+        text.style.marginLeft = 'calc(100% - 535px)';
     }
 
     // Hide the side window with the informations about the ad
@@ -152,7 +158,13 @@
     // Function to decrement the timer
     function getTime(){
         if(timer>0){timer -= 1;}
-        document.getElementById("timer").innerHTML = "Time : " + String(timer);
+        if(Math.round(timer/60)!== 0){
+            document.getElementById("timer").innerHTML = "Time : " + String(Math.round(timer/60)) + " min";
+        }
+        else{
+            document.getElementById("timer").innerHTML = "Time : <1 min";
+        }
+        
     }
 
     // Explain why the player's answer is wrong
@@ -163,6 +175,8 @@
                 feature = vectorLayer.features[i];
                 var text = document.getElementById("slider");
                 text.innerHTML = "<button class='but_close' onclick='closeSolution()'>x</button>";
+                text.innerHTML += "<button class='but_next' onclick='nextAds()'>Next</button>";
+                
                 var iderror = vectorLayer.features[i]['attributes']['description'][3]
                 text.scrollTo(0, 0);
                 if(solution==0){
@@ -196,6 +210,13 @@
         text.style.opacity = '0';
     }
 
+    // Show the following ads in the list
+    function nextAds(){
+        var index = Math.floor(Math.random() * vectorLayer.features.length);
+        var feature = vectorLayer.features[index];
+        createPopup(feature);
+    }
+
     // Check if the game is finish
     function checkFinish(){
         if(vectorLayer.features.length == 0 || timer==0){ // Time over or all the ads classified
@@ -206,6 +227,15 @@
                 finishpopup.style.display = "block";
                 var finalscore = document.getElementById("show_score");
                 finalscore.innerHTML+= currentscore;
+                var finaltime = document.getElementById("show_time");
+                var timetaken = Math.round((finishtime-starttime)/60/60); // sec
+                if(timetaken < 1){
+                    var timetaken = Math.round((finishtime-starttime)/60); // sec
+                    finaltime.innerHTML+= timetaken + " seconds";
+                }
+                else{
+                    finaltime.innerHTML+= timetaken + " minutes";
+                }
                 var finalaccuracy = document.getElementById("show_acc");
                 var accuracy = good_answers / (good_answers + wrong_answers);
                 if(isNaN(accuracy)){accuracy=0;}
@@ -219,7 +249,7 @@
             resetMap();
             var currenttime = Date.now();
             var deltatime = currenttime - finishtime;
-            if(deltatime > 90000){ // If after 1min30 the user doesn't enter any name we redirect to the starting page
+            if(deltatime > 20000){ // If after 20sec the user doesn't enter any name we redirect to the starting page
                 var btn = document.getElementById("home");
                 btn.click();
             }
@@ -299,19 +329,19 @@
     var audio_click = document.getElementById("audio_click");
 
     var level = {{level}}; // Difficulty level
-    var timer = 600;//600; // 10min (Eazy mode - Default)
+    var timer = 300;// 5min (Eazy mode - Default)
     if(level==1){
-        timer=420; // 7min (Normal mode)
+        timer=210; // 3.5min (Normal mode)
     }
     else if(level==2){
-        timer=300; // 5min (Hard mode)
+        timer=150; // 2.5min (Hard mode)
     }
     
     // Map stuff
     map.addLayer(new OpenLayers.Layer.OSM());
     epsg4326 =  new OpenLayers.Projection("EPSG:4326"); //WGS 1984 projection
     projectTo = map.getProjectionObject(); //The map projection (Spherical Mercator)
-    var lonLat = new OpenLayers.LonLat(4.350665, 50.848638).transform(epsg4326, projectTo);
+    var lonLat = new OpenLayers.LonLat(4.55, 50.84865).transform(epsg4326, projectTo);
     map.setCenter(lonLat, zoom);
     var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
 
@@ -324,6 +354,10 @@
     };
     map.addControl(controls['selector']);
     controls['selector'].activate();
+
+    // Open a the first pop up at first
+    var feature = vectorLayer.features[0];
+    createPopup(feature);
 
     // Timer and end game conditions
     setInterval(()=>{getTime()},1000);
