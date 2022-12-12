@@ -20,3 +20,5 @@ http://192.168.0.219:5000/ or to http://127.0.0.1:5000/
 
 ## Screenshot
 ![screenshot](staticFiles/img/screenshot.png "Text to show on mouseover")
+
+![screenshot](staticFiles/img/screenshot_v2.png "Text to show on mouseover")
