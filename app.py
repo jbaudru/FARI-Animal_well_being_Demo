@@ -9,7 +9,7 @@ app = Flask(__name__, template_folder='templateFiles', static_folder='staticFile
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-   return render_template('rules.html')
+   return render_template('rules.html', vector=vector)
 
 
 @app.route('/play', methods=['GET', 'POST'])
@@ -22,6 +22,14 @@ def play():
     with open("staticFiles/data/ads.json") as json_file:
         data = json.load(json_file)
     return render_template('play.html', ads=data["ads"], level=difficulty, score=score, time=time, vector=vector)
+
+@app.route('/leaderboard', methods=['GET', 'POST'])
+def leaderboard():
+    data = None
+    with open("staticFiles/data/leaderboard.json") as json_file:
+        data = json.load(json_file)
+    return render_template('leaderboard.html', players=data["players"], vector=vector)
+
 
 @app.route('/gettimer/<jsdata>')
 def get_javascript_timer(jsdata):
@@ -79,14 +87,6 @@ def get_user_data(jsdata):
         with open("staticFiles/data/leaderboard.json", "w") as outfile:
             outfile.write(json_object)
     return jsdata
-
-
-@app.route('/leaderboard', methods=['GET', 'POST'])
-def leaderboard():
-    data = None
-    with open("staticFiles/data/leaderboard.json") as json_file:
-        data = json.load(json_file)
-    return render_template('leaderboard.html', players=data["players"])
 
 
 if __name__ == "__main__":

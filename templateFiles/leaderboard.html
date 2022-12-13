@@ -13,7 +13,7 @@
     <div class="topbar" href="home">
         <img class="logo" src="staticFiles/img/logo.png" alt="FARI Institute">
         <ul>
-            <li><a href="{{url_for('play')}}">Play</a></li>
+            <li><a id="playy" href="{{url_for('play')}}">Play</a></li>
             <li class="current"><a href="{{url_for('leaderboard')}}">Leaderboard</a></li>
             <li><a id="home" href="{{url_for('home')}}">Rules</a></li>
         </ul>
@@ -35,8 +35,6 @@
 </html>
 
 <script>
-    var play = {{players | tojson}}; //Move the Python dict into JS object
-
     // Put the new names and score in the leaderboard
     function updateLeaderboard(){
         var text = document.getElementById("leaderboard");
@@ -70,11 +68,21 @@
         xmlHttp.send(null);
     }
 
+    var play = {{players | tojson}}; //Move the Python dict into JS object
+
     play = convertPyDictInJSDict(play);
     play = sortDict(play);    
     updateLeaderboard();
 
-    var btn = document.getElementById("button");
-	btn.addEventListener("click", resetDataServer);
+    var btn2 = document.getElementById("button");
+	btn2.addEventListener("click", resetDataServer);
+
+    var x = document.getElementById("playy");
+    if({{vector}}.length == 0){
+        x.style.display = "none";
+    }
+    else{
+        x.style.display = "block"
+    }
 
 </script>
