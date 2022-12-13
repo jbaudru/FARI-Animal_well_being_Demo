@@ -157,14 +157,18 @@
 
     // Function to decrement the timer
     function getTime(){
-        if(timer>0){timer -= 1;}
-        if(Math.round(timer/60)!== 0){
-            document.getElementById("timer").innerHTML = "Time : " + String(Math.round(timer/60)) + " min";
+        if(timer>0){
+            timer -= 1;
+            if(Math.round(timer/60)!== 0){
+                document.getElementById("timer").innerHTML = "Time : " + String(Math.round(timer/60)) + " min";
+            }
+            else{
+                document.getElementById("timer").innerHTML = "Time : <1 min";
+            }
         }
         else{
             document.getElementById("timer").innerHTML = "Time : <1 min";
         }
-        
     }
 
     // Explain why the player's answer is wrong
@@ -184,22 +188,17 @@
                     text.innerHTML += "<div class='markerContent'><h2 class='soluttext_w'>Wrong!</h2>"
                     text.innerHTML += "<hr>"
                     text.innerHTML += "<b><p class='description'>The AI chose the other solution because of the following reason:</p></b>"
-                    text.innerHTML += vectorLayer.features[i]['attributes']['description'][2];
-                    text.innerHTML += "<hr>"
-                    text.innerHTML += "<b><p class='description'>Steps made by the AI to classify this ads:</p></b>";
-                    text.innerHTML += vectorLayer.features[i]['attributes']['description'][3];
-                    text.innerHTML += "</div>"
                 }
                 else{
                     text.innerHTML += "<div class='markerContent'><h2 class='soluttext_r'>Correct!</h2>";
                     text.innerHTML += "<hr>"
                     text.innerHTML += "<b><p class='description'>You choose the correct anwser because:</p></b>";
-                    text.innerHTML += vectorLayer.features[i]['attributes']['description'][2];
-                    text.innerHTML += "<hr>"
-                    text.innerHTML += "<b><p class='description'>Steps made by the AI to classify this ads:</p></b>";
-                    text.innerHTML += vectorLayer.features[i]['attributes']['description'][3];
-                    text.innerHTML += "</div>"
                 }
+                text.innerHTML += vectorLayer.features[i]['attributes']['description'][2];
+                text.innerHTML += "<hr>"
+                text.innerHTML += "<b><p class='description'>Steps made by the AI to classify this ads:</p></b>";
+                text.innerHTML += vectorLayer.features[i]['attributes']['description'][3];
+                text.innerHTML += "</div>"
                 break;
             }
         }
@@ -229,9 +228,19 @@
                 var finalscore = document.getElementById("show_score");
                 finalscore.innerHTML+= currentscore;
                 var finaltime = document.getElementById("show_time");
-                var timetaken = Math.round((finishtime-starttime)/60/60); // min
+
+                if(level==0){
+                    var oldtimer = 300;// 5min (Eazy mode - Default)
+                }
+                else if(level==1){
+                    var oldtimer=210; // 3.5min (Normal mode)
+                }
+                else if(level==2){
+                    var oldtimer=150; // 2.5min (Hard mode)
+                }
+                var timetaken = Math.round((oldtimer-timer)/60); // min
                 if(timetaken < 1){
-                    var timetaken = Math.round((finishtime-starttime)/60); // sec
+                    var timetaken = Math.round((oldtimer-timer)); // sec
                     finaltime.innerHTML+= timetaken + " seconds";
                 }
                 else{
@@ -244,7 +253,6 @@
                 var map = document.getElementById("m")
                 map.style.pointerEvents = 'none';
                 closeSolution();
-                resetDataServer();
             }
         }
         if(game_over==1){ // Once the game is over we wait for the user input (username)
@@ -255,6 +263,7 @@
                 var btn = document.getElementById("home");
                 btn.click();
             }
+            resetDataServer();
         }
     }
 

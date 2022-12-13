@@ -12,7 +12,7 @@
     <div class="topbar" href="home">
         <img class="logo" src="staticFiles/img/logo.png" alt="FARI Institute">
         <ul>
-            <li><a href="{{url_for('play')}}">Play</a></li>
+            <li><a id="play" href="{{url_for('play')}}">Play</a></li>
             <li><a href="{{url_for('leaderboard')}}">Leaderboard</a></li>
             <li class="current"><a id="home" href="{{url_for('home')}}">Rules</a></li>
         </ul>
@@ -141,7 +141,9 @@
 
         return xmlHttp.responseText;
     }
-    
+
+
+
     var btn = document.getElementById("button");
 	btn.addEventListener("click", sendDifficulty);
 
