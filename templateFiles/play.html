@@ -312,8 +312,8 @@
         if(game_over==1){ 
             if(AI_current_ad_id < vectorLayer.features.length){ // If there is remaining ad on the map
                 createPopup(vectorLayer.features[AI_current_ad_id]);
-                rndInt = randomIntFromInterval(0, vectorLayer.features.length)
-                if(rndInt==0){ // Fake AI make an error
+                
+                if(AI_current_ad_id==25){ // Fake AI make an error for the booj
                     AIdoAction(0, AI_current_ad_id); 
                 }
                 else{ // Fake AI classify the ad correctly
