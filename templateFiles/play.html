@@ -253,6 +253,7 @@
                 var map = document.getElementById("m")
                 map.style.pointerEvents = 'none';
                 closeSolution();
+                resetDataServer();
             }
         }
         if(game_over==1){ // Once the game is over we wait for the user input (username)
@@ -425,7 +426,7 @@
     // Timer and end game conditions
     setInterval(()=>{getTime()},1000);
     setInterval(()=>{checkFinish()},500);
-    if(game_over==0){
+    if(game_over===0){
         setInterval(()=>{sendData()},1000); //send data to server for quick save
     }
     setInterval(()=>{PlayAI()},250); // Change the value to make the fake AI play faster
