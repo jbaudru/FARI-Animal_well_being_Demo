@@ -132,6 +132,13 @@
         var url = "/getmethod/" + String(value)
         xmlHttp.open( "GET", url, false ); // false for synchronous request
         xmlHttp.send(null);
+
+        var value = 0
+        var xmlHttp = new XMLHttpRequest();
+        var url = "/getreset/" + String(value);
+        xmlHttp.open( "GET", url, false ); // false for synchronous request
+        xmlHttp.send(null);
+
         return xmlHttp.responseText;
     }
     

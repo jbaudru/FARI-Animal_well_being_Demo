@@ -26,7 +26,7 @@
         <ul id="leaderboard">
         </ul>
         <div class="center">
-            <a class="but_play" href="{{url_for('play')}}">Play again</a>
+            <a id="button" class="but_play" href="{{url_for('play')}}">Play again</a>
         </div>
     </div>
     
@@ -62,8 +62,19 @@
         return dict;
     }
 
+    function resetDataServer(){
+        var value = 0
+        var xmlHttp = new XMLHttpRequest();
+        var url = "/getreset/" + String(value);
+        xmlHttp.open( "GET", url, false ); // false for synchronous request
+        xmlHttp.send(null);
+    }
+
     play = convertPyDictInJSDict(play);
     play = sortDict(play);    
     updateLeaderboard();
+
+    var btn = document.getElementById("button");
+	btn.addEventListener("click", resetDataServer);
 
 </script>

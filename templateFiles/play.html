@@ -4,6 +4,7 @@
 <link rel = "icon" href ="staticFiles/img/marker.png" type = "image/x-icon">
 <html lang="en">
 <head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <link rel="stylesheet" href="staticFiles/style/style.css">
 </head>
 <body>
@@ -18,7 +19,7 @@
         <ul>
             <li><a href="{{url_for('leaderboard')}}">Leaderboard</a></li>
             <li><a id="home" href="{{url_for('home')}}">Rules</a></li>
-            <li class="quit"><a id="home" href="{{url_for('leaderboard')}}">Exit</a></li>
+            <li class="quit"><a id="quit" href="{{url_for('home')}}">Exit</a></li>
         </ul>
     </div>
 
@@ -171,6 +172,7 @@
         for (i = 0; i < vectorLayer.features.length; i++) {
             var idd = vectorLayer.features[i]['attributes']['description'][1];
             if(id==idd){
+                vectorID.push(idd);
                 feature = vectorLayer.features[i];
                 var text = document.getElementById("slider");
                 text.innerHTML = "<button class='but_close' onclick='closeSolution()'>x</button>";
@@ -242,10 +244,11 @@
                 var map = document.getElementById("m")
                 map.style.pointerEvents = 'none';
                 closeSolution();
+                resetDataServer();
             }
         }
         if(game_over==1){ // Once the game is over we wait for the user input (username)
-            resetMap();
+            resetMap([]);
             var currenttime = Date.now();
             var deltatime = currenttime - finishtime;
             if(deltatime > 20000){ // If after 20sec the user doesn't enter any name we redirect to the starting page
@@ -265,16 +268,26 @@
         return xmlHttp.responseText;
     }
 
+    function resetDataServer(){
+        var value = 0
+        var xmlHttp = new XMLHttpRequest();
+        var url = "/getreset/" + String(value);
+        xmlHttp.open( "GET", url, false ); // false for synchronous request
+        xmlHttp.send(null);
+    }
+
     // Put back all the ads on the map
-    function resetMap(){
+    function resetMap(vectorID){
         vectorLayer = new OpenLayers.Layer.Vector("Overlay");
         for (let i = 0; i < ads.length; i++) {
-            var feature = new OpenLayers.Feature.Vector(
-            new OpenLayers.Geometry.Point( ads[i]['lat'], ads[i]['long'] ).transform(epsg4326, projectTo),
-                {description: [ads[i]['description'], ads[i]['id'], ads[i]['error'], ads[i]['whereError']]},
-                {externalGraphic: 'staticFiles/img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25}
-            );    
-            vectorLayer.addFeatures(feature);       
+            if(!vectorID.includes(ads[i]['id'])){
+                var feature = new OpenLayers.Feature.Vector(
+                new OpenLayers.Geometry.Point( ads[i]['lat'], ads[i]['long'] ).transform(epsg4326, projectTo),
+                    {description: [ads[i]['description'], ads[i]['id'], ads[i]['error'], ads[i]['whereError']]},
+                    {externalGraphic: 'staticFiles/img/marker.png', graphicHeight: 40, graphicWidth: 40, graphicXOffset:-25, graphicYOffset:-25}
+                );    
+                vectorLayer.addFeatures(feature);       
+            }
         }
         map.addLayer(vectorLayer);
     }
@@ -311,10 +324,40 @@
         finalaccuracy.innerHTML = Number((accuracy*100).toFixed(1)) + "%";
     }
 
+    // Send Time, Score and VectorLayer
+    function sendData(){ 
+        // Send time
+        var time = timer
+        var xmlHttp = new XMLHttpRequest();
+        var url = "/gettimer/" + String(time)
+        xmlHttp.open( "GET", url, false ); // false for synchronous request
+        xmlHttp.send(null);
+        // Send score
+        var score = currentscore
+        var xmlHttp = new XMLHttpRequest();
+        var url = "/getscore/" + String(score)
+        xmlHttp.open( "GET", url, false ); // false for synchronous request
+        xmlHttp.send(null);
+        // Send ads vector
+        const s = JSON.stringify(vectorID); // Stringify converts a JavaScript object or value to a JSON string
+        $.ajax({
+            url:"/getvector",
+            type:"POST",
+            contentType: "application/json",
+            data: JSON.stringify(s)});   
+    }
+
     //=================================================================================
-    var currentscore = 0;
-    var AI_currentscore = 0;
-    var AI_current_ad_id = 0;
+    if({{score}} !== 0){
+        var currentscore = {{score}};
+        var score = document.getElementById("scoretxt");
+        score.innerHTML = "Score : " + String(currentscore);
+    }
+    else{
+        var currentscore = 0;
+    }
+
+    var AI_currentscore = 0; var AI_current_ad_id = 0;
     var game_over=0;
     var good_answers = 0; var wrong_answers = 0;
     var AI_good_answers = 0; var AI_wrong_answers = 0;
@@ -325,27 +368,39 @@
     var map = new OpenLayers.Map("m");
     var audio_lose = document.getElementById("audio_lose"); // Play lose sound
     var audio_win = document.getElementById("audio_win"); // Play win sound
-    var audio_click = document.getElementById("audio_click");
 
     var level = {{level}}; // Difficulty level
-    var timer = 300;// 5min (Eazy mode - Default)
-    if(level==1){
-        timer=210; // 3.5min (Normal mode)
+
+    if({{time}} !== 0){
+        var timer = {{time}};
+        getTime();
     }
-    else if(level==2){
-        timer=150; // 2.5min (Hard mode)
+    else{
+        var timer = 300;// 5min (Eazy mode - Default)
+        if(level==1){
+            timer=210; // 3.5min (Normal mode)
+        }
+        else if(level==2){
+            timer=150; // 2.5min (Hard mode)
+        }
     }
-    
+
+    if({{vector}}.length !== 0){
+        var vectorID = {{vector}};
+    }
+    else{
+        var vectorID = [];
+    }
     // Map stuff
     map.addLayer(new OpenLayers.Layer.OSM());
     epsg4326 =  new OpenLayers.Projection("EPSG:4326"); //WGS 1984 projection
     projectTo = map.getProjectionObject(); //The map projection (Spherical Mercator)
     var lonLat = new OpenLayers.LonLat(4.55, 50.84865).transform(epsg4326, projectTo);
     map.setCenter(lonLat, zoom);
-    var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
+
 
     // Initialize the map
-    resetMap();
+    resetMap(vectorID);
     
     // Controler for click on the pin in the map
     var controls = {
@@ -361,10 +416,16 @@
     // Timer and end game conditions
     setInterval(()=>{getTime()},1000);
     setInterval(()=>{checkFinish()},500);
+    if(game_over==0){
+        setInterval(()=>{sendData()},1000); //send data to server for quick save
+    }
     setInterval(()=>{PlayAI()},250); // Change the value to make the fake AI play faster
     
     var btn = document.getElementById("button");
 	btn.addEventListener("click", sendUsername);
+
+    var btn2 = document.getElementById("quit");
+	btn2.addEventListener("click", resetDataServer);
 
 
 </script>

@@ -1,7 +1,8 @@
-from flask import Flask, redirect, url_for, request, render_template
+from flask import Flask, jsonify, url_for, request, render_template
 import json
 
-global difficulty 
+global difficulty, score, time, vector
+difficulty = 0; score = 0; time = 0; vector = []
 
 app = Flask(__name__, template_folder='templateFiles', static_folder='staticFiles')
 
@@ -13,13 +14,40 @@ def home():
 
 @app.route('/play', methods=['GET', 'POST'])
 def play():
-    global difficulty
+    global difficulty, score, time, vector
+    print(score)
+    print(time)
+    print(vector)
     data = None
     with open("staticFiles/data/ads.json") as json_file:
         data = json.load(json_file)
+    return render_template('play.html', ads=data["ads"], level=difficulty, score=score, time=time, vector=vector)
 
-    return render_template('play.html', ads=data["ads"], level=difficulty)
+@app.route('/gettimer/<jsdata>')
+def get_javascript_timer(jsdata):
+    global time
+    time = jsdata
+    return jsdata
 
+@app.route('/getscore/<jsdata>')
+def get_javascript_score(jsdata):
+    global score
+    score = jsdata
+    return jsdata
+
+@app.route('/getvector', methods=['GET', 'POST'])
+def get_javascript_vector():
+    global vector
+    if request.method == 'POST':
+        data = request.json
+        vector = data
+        return jsonify(data)
+    
+@app.route('/getreset/<jsdata>')
+def get_javascript_reset(jsdata):
+    global score, time, vector
+    score = 0; time = 0; vector = []
+    return jsdata
 
 @app.route('/getmethod/<jsdata>')
 def get_javascript_data(jsdata):
@@ -33,6 +61,7 @@ def get_javascript_data(jsdata):
         difficulty = 2
     print("Level of difficuly selected: ", difficulty)
     return jsdata
+
 
 @app.route('/getusername/<jsdata>')
 def get_user_data(jsdata):
