@@ -400,6 +400,28 @@ hr {
     width: 430px;
 }
 
+.select_lang{
+    display: inline-block;
+    float: left;
+
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    font-size: 15px;
+    color: white;
+    background-color: #a3d4ff;
+    border-width : 0;
+    text-align: center;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+.select_lang:hover{
+    background-color: #7bc1ff;
+}
+
 .but_save{
     display: inline;
     height: 40px;
@@ -482,9 +504,9 @@ hr {
 }
 
 .downarrow{
-    margin-left: calc( 100% - 30px );
-
+    
     display: inline-block;
+    float: right;
 
     padding-left: 10px;
     padding-right: 10px;
