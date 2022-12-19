@@ -12,14 +12,15 @@
         <h1 id="wintxt" class="wintext">+100</h1>
         <h1 id="scoretxt" class="scoretext">Score : 0</h1>
         <h1 id="timer" class="timetext">Time : 0</h1>
+        <h1 class="quit"><a class="quitext" id="quit" href="{{url_for('home')}}">Try again</a></h1>
     </div>
 
     <div class="topbar" href="home">
         <img class="logo" src="staticFiles/img/logo.png" alt="FARI Institute">
         <ul>
-            <li><a href="{{url_for('leaderboard')}}">Leaderboard</a></li>
             <li><a id="home" href="{{url_for('home')}}">Rules</a></li>
-            <li class="quit"><a id="quit" href="{{url_for('home')}}">Exit</a></li>
+            <li class="current"><a  id="playy" href="{{url_for('play')}}">Play</a></li>
+            <li><a href="{{url_for('leaderboard')}}">Leaderboard</a></li>
         </ul>
     </div>
 
@@ -180,8 +181,7 @@
                 feature = vectorLayer.features[i];
                 var text = document.getElementById("slider");
                 text.innerHTML = "<button class='but_close' onclick='closeSolution()'>x</button>";
-                text.innerHTML += "<button class='but_next' onclick='nextAds()'>Next</button>";
-                
+    
                 var iderror = vectorLayer.features[i]['attributes']['description'][3]
                 text.scrollTo(0, 0);
                 if(solution==0){
@@ -198,6 +198,7 @@
                 text.innerHTML += "<hr>"
                 text.innerHTML += "<b><p class='description'>Steps made by the AI to classify this ads:</p></b>";
                 text.innerHTML += vectorLayer.features[i]['attributes']['description'][3];
+                text.innerHTML += "<button class='but_next' onclick='nextAds()'>Next</button>";
                 text.innerHTML += "</div>"
                 break;
             }

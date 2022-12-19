@@ -59,17 +59,6 @@ body {
     transition: 0.2s;
 }
 
-.topbar .quit a {
-    text-align: center;
-    border-radius: 10px;
-    display:flex;
-    color: rgb(255, 61, 61);
-    padding: 14px 16px;
-    text-decoration: none;
-
-    transition: 0.2s;
-}
-
 /* Change the link color to #111 (black) on hover */
 .topbar li a:hover {
     background-color: whitesmoke;
@@ -213,6 +202,29 @@ body {
     padding: 1em;
     border-radius: 10px;
     background-color: whitesmoke;   
+}
+
+.quit{
+    position: absolute;
+    display: block;
+    font-size: 15px;
+    margin-top: 15px;
+    text-align: right;
+    margin-left: calc( 100% - 400px );
+}
+
+.quitext{
+    
+    color: rgb(255, 61, 61);
+    padding: 1em;
+    text-decoration: none;
+    transition: 0.2s;
+    border-radius: 10px;
+}
+
+.quitext:hover{
+    background-color: rgb(255, 61, 61);
+    color: white;
 }
 
 .logo{
@@ -424,11 +436,13 @@ hr {
 }
 
 .but_next{
+    align-items: center;
     z-index: 4000;
-
-    
-    float: right;
-    
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 5%;
+    width: 80%;
+    height: 65px;
 
     font-size: 15px;
     color: white;

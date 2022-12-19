@@ -13,9 +13,9 @@
     <div class="topbar" href="home">
         <img class="logo" src="staticFiles/img/logo.png" alt="FARI Institute">
         <ul>
+            <li><a id="home" href="{{url_for('home')}}">Rules</a></li>
             <li><a id="playy" href="{{url_for('play')}}">Play</a></li>
             <li class="current"><a href="{{url_for('leaderboard')}}">Leaderboard</a></li>
-            <li><a id="home" href="{{url_for('home')}}">Rules</a></li>
         </ul>
     </div>
     
@@ -79,10 +79,10 @@
 
     var x = document.getElementById("playy");
     if({{vector}}.length == 0){
-        x.style.display = "none";
+        x.href = "{{url_for('home')}}";
     }
     else{
-        x.style.display = "block"
+        x.href = "{{url_for('play')}}";
     }
 
 </script>

@@ -12,9 +12,9 @@
     <div class="topbar" href="home">
         <img class="logo" src="staticFiles/img/logo.png" alt="FARI Institute">
         <ul>
-            <li><a id="play" href="{{url_for('play')}}">Play</a></li>
-            <li><a href="{{url_for('leaderboard')}}">Leaderboard</a></li>
             <li class="current"><a id="home" href="{{url_for('home')}}">Rules</a></li>
+            <li><a id="playy" href="{{url_for('play')}}">Play</a></li>
+            <li><a href="{{url_for('leaderboard')}}">Leaderboard</a></li>
         </ul>
         
     </div>
@@ -143,12 +143,12 @@
         return xmlHttp.responseText;
     }
 
-    var x = document.getElementById("play");
+    var x = document.getElementById("playy");
     if({{vector}}.length == 0){
-        x.style.display = "none";
+        x.href = "#button";
     }
     else{
-        x.style.display = "block"
+        x.href = "{{url_for('play')}}";
     }
 
     var btn = document.getElementById("button");
