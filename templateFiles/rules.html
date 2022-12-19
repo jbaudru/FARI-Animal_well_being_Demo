@@ -94,7 +94,7 @@
                 </li>
                 <br>
                 <li class="ruletext">
-                    The image of the ad can only contain one single animal.
+                    The image of the ad can only contain one single animal and vendors can only sell one animal per ad.
                 </li>
                 <br>
                 <li class="ruletext">
@@ -136,8 +136,9 @@
 </html>
 
 <script>
-    // Send the difficulty choose by the player to the Flask server
-    function sendDifficulty(){
+    // Send the difficulty choose by the player, language and reset data on server side
+    function sendData(){
+        // difficulty
         var select = document.getElementById('difficulty');
         var value = select.options[select.selectedIndex].value;
         var xmlHttp = new XMLHttpRequest();
@@ -145,6 +146,7 @@
         xmlHttp.open( "GET", url, false ); // false for synchronous request
         xmlHttp.send(null);
 
+        // reset
         var value = 0
         var xmlHttp = new XMLHttpRequest();
         var url = "/getreset/" + String(value);
@@ -163,6 +165,6 @@
     }
 
     var btn = document.getElementById("button");
-	btn.addEventListener("click", sendDifficulty);
+	btn.addEventListener("click", sendData);
 
 </script>
