@@ -186,12 +186,12 @@
                 text.scrollTo(0, 0);
                 if(solution==0){
                     text.innerHTML += "<div class='markerContent'><h2 class='soluttext_w'>Wrong!</h2>"
-                    text.innerHTML += "<hr>"
+                    //text.innerHTML += "<hr>"
                     text.innerHTML += "<b><p class='description'>The AI chose the other solution because of the following reason:</p></b>"
                 }
                 else{
                     text.innerHTML += "<div class='markerContent'><h2 class='soluttext_r'>Correct!</h2>";
-                    text.innerHTML += "<hr>"
+                    //text.innerHTML += "<hr>"
                     text.innerHTML += "<b><p class='description'>You choose the correct anwser because:</p></b>";
                 }
                 text.innerHTML += vectorLayer.features[i]['attributes']['description'][2];
@@ -227,6 +227,17 @@
                 var finishpopup = document.getElementById("popup");
                 finishpopup.style.display = "block";
                 var finalscore = document.getElementById("show_score");
+                if(good_answers==26){//The play get all the good answer he get the maximal score
+                    if(level==0){
+                        var currentscore = 2522;
+                    }
+                    else if(level==1){
+                        var currentscore = 2548; 
+                    }
+                    else if(level==2){
+                        var currentscore = 2574;
+                    }
+                }
                 finalscore.innerHTML+= currentscore;
                 var finaltime = document.getElementById("show_time");
 

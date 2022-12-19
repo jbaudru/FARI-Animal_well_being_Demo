@@ -210,7 +210,7 @@ body {
     font-size: 15px;
     margin-top: 15px;
     text-align: right;
-    margin-left: calc( 100% - 400px );
+    margin-left: calc( 100% - 320px );
 }
 
 .quitext{
@@ -301,11 +301,13 @@ body {
 }
 
 .soluttext_w{
+    margin-top: 0;
     color: red;
     font-size: xx-large;
 }
 
 .soluttext_r{
+    margin-top: 0;
     color: green;
     font-size: xx-large;
 }
