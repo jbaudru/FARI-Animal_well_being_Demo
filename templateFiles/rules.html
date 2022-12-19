@@ -24,12 +24,14 @@
     <br>
     
     <div class="main">
+        <br>
+
         <select id="language" class="select_lang">
             <option value="EN">EN</option>
             <option value="FR">FR</option>
             <option value="NL">NL</option>
         </select>
-        
+
         <a class="downarrow" href="#button">
             <span>&#10148;</span>
         </a>
@@ -111,17 +113,18 @@
             the criteria presented above are a simplification of reality, in practice this algorithm is based on a dozen criteria to classify the ads for selling animals online.
         </small>
 
-        <div class="center">
-            <select id="difficulty" class="select_diff">
-                <option value="eazy">Eazy</option>
-                <option value="normal">Normal</option>
-                <option value="hard">Hard</option>
-            </select>
-            <br>
-            <br>
-            <br>
-            <a id="button"class="but_play" href="{{url_for('play')}}">Play</a>
-        </div>
+        <br>
+        <br>
+
+        <select id="difficulty" class="select_diff">
+            <option value="eazy">Eazy</option>
+            <option value="normal">Normal</option>
+            <option value="hard">Hard</option>
+        </select>
+        <br>
+        <br>
+        <a id="button"class="but_play" href="{{url_for('play')}}">Play</a>
+    
     </div>
 
 
