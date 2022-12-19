@@ -2,7 +2,7 @@ from flask import Flask, jsonify, url_for, request, render_template
 import json
 
 global difficulty, score, time, vector
-difficulty = 0; score = 0; time = 0; vector = []
+difficulty = 0; language= "FR"; score = 0; time = 0; vector = []
 
 app = Flask(__name__, template_folder='templateFiles', static_folder='staticFiles')
 
@@ -68,6 +68,19 @@ def get_javascript_data(jsdata):
     elif(jsdata=="hard"):
         difficulty = 2
     print("Level of difficuly selected: ", difficulty)
+    return jsdata
+
+@app.route('/getlanguage/<jsdata>') # Do stuff to change language
+def get_javascript_lang(jsdata):
+    global language
+    language = "EN"
+    if(jsdata=="EN"):
+        language = "EN"
+    elif(jsdata=="FR"):
+        language = "FR"
+    elif(jsdata=="NL"):
+        language = "NL"
+    print("Language selected: ", language)
     return jsdata
 
 

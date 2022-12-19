@@ -146,6 +146,14 @@
         xmlHttp.open( "GET", url, false ); // false for synchronous request
         xmlHttp.send(null);
 
+        // language
+        var select = document.getElementById('language');
+        var value = select.options[select.selectedIndex].value;
+        var xmlHttp = new XMLHttpRequest();
+        var url = "/getlanguage/" + String(value)
+        xmlHttp.open( "GET", url, false ); // false for synchronous request
+        xmlHttp.send(null);
+
         // reset
         var value = 0
         var xmlHttp = new XMLHttpRequest();
