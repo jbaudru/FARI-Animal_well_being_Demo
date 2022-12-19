@@ -146,18 +146,24 @@
         xmlHttp.open( "GET", url, false ); // false for synchronous request
         xmlHttp.send(null);
 
-        // language
-        var select = document.getElementById('language');
-        var value = select.options[select.selectedIndex].value;
-        var xmlHttp = new XMLHttpRequest();
-        var url = "/getlanguage/" + String(value)
-        xmlHttp.open( "GET", url, false ); // false for synchronous request
-        xmlHttp.send(null);
+        sendLang();
 
         // reset
         var value = 0
         var xmlHttp = new XMLHttpRequest();
         var url = "/getreset/" + String(value);
+        xmlHttp.open( "GET", url, false ); // false for synchronous request
+        xmlHttp.send(null);
+
+        return xmlHttp.responseText;
+    }
+
+    function sendLang(){
+        // language
+        var select = document.getElementById('language');
+        var value = select.options[select.selectedIndex].value;
+        var xmlHttp = new XMLHttpRequest();
+        var url = "/getlanguage/" + String(value)
         xmlHttp.open( "GET", url, false ); // false for synchronous request
         xmlHttp.send(null);
 
@@ -174,5 +180,8 @@
 
     var btn = document.getElementById("button");
 	btn.addEventListener("click", sendData);
+
+    var btn1 = document.getElementById("language");
+	btn1.addEventListener("click", sendLang);
 
 </script>

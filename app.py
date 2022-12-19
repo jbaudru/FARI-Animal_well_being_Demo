@@ -14,12 +14,15 @@ def home():
 
 @app.route('/play', methods=['GET', 'POST'])
 def play():
-    global difficulty, score, time, vector
-    print(score)
-    print(time)
-    print(vector)
+    global difficulty, score, time, vector, language
     data = None
-    with open("staticFiles/data/ads.json") as json_file:
+    if(language=="EN"):
+        filename = "staticFiles/data/ads_EN.json"
+    elif(language=="FR"):
+        filename = "staticFiles/data/ads_FR.json"
+    elif(language=="NL"):
+        filename = "staticFiles/data/ads_NL.json"
+    with open(filename) as json_file:
         data = json.load(json_file)
     return render_template('play.html', ads=data["ads"], level=difficulty, score=score, time=time, vector=vector)
 
