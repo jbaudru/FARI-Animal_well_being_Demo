@@ -15,18 +15,18 @@
         <ul>
             <li><a id="home" href="{{url_for('home')}}">Rules</a></li>
             <li><a id="playy" href="{{url_for('play')}}">Play</a></li>
-            <li class="current"><a href="{{url_for('leaderboard')}}">Leaderboard</a></li>
+            <li class="current"><a id="leader" href="{{url_for('leaderboard')}}">Leaderboard</a></li>
         </ul>
     </div>
     
 
     <div class="score">
         <br>
-        <h3 class="titlescore">Name | Score</h3>
+        <h3 id="titlescore" class="titlescore">Name | Score</h3>
         <ul id="leaderboard">
         </ul>
         <div class="center">
-            <a id="button" class="but_play" href="{{url_for('play')}}">Play again</a>
+            <a id="button_again" class="but_play" href="{{url_for('play')}}">Play again</a>
         </div>
     </div>
     
@@ -68,13 +68,30 @@
         xmlHttp.send(null);
     }
 
+    function changeLang(){
+        var url = "/gettext/"
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", url, false ); // false for synchronous request
+        xmlHttp.send(null);
+        var text = JSON.parse(xmlHttp.responseText);
+
+        document.getElementById('home').innerHTML = text["home"];
+        document.getElementById('playy').innerHTML = text["playy"];
+        document.getElementById('leader').innerHTML = text["leader"];
+        document.getElementById('button_again').innerHTML = text["button_again"];
+        document.getElementById('titlescore').innerHTML = text["titlescore"];
+    }
+
+    //=================================================================================
+
     var play = {{players | tojson}}; //Move the Python dict into JS object
 
     play = convertPyDictInJSDict(play);
     play = sortDict(play);    
     updateLeaderboard();
+    changeLang();
 
-    var btn2 = document.getElementById("button");
+    var btn2 = document.getElementById("button_again");
 	btn2.addEventListener("click", resetDataServer);
 
     var x = document.getElementById("playy");

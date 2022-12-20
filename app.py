@@ -2,19 +2,21 @@ from flask import Flask, jsonify, url_for, request, render_template
 import json
 
 global difficulty, score, time, vector
-difficulty = 0; language= "FR"; score = 0; time = 0; vector = []
+difficulty = 0; language= "EN"; score = 0; time = 0; vector = []; text= None
 
 app = Flask(__name__, template_folder='templateFiles', static_folder='staticFiles')
 
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-   return render_template('rules.html', vector=vector)
+    global text
+    text = get_text()
+    return render_template('rules.html', vector=vector, text=text)
 
 
 @app.route('/play', methods=['GET', 'POST'])
 def play():
-    global difficulty, score, time, vector, language
+    global difficulty, score, time, vector, language, text
     data = None
     if(language=="EN"):
         filename = "staticFiles/data/ads_EN.json"
@@ -24,14 +26,17 @@ def play():
         filename = "staticFiles/data/ads_NL.json"
     with open(filename) as json_file:
         data = json.load(json_file)
-    return render_template('play.html', ads=data["ads"], level=difficulty, score=score, time=time, vector=vector)
+    text = get_text()
+    return render_template('play.html', ads=data["ads"], level=difficulty, score=score, time=time, vector=vector, text=text)
 
 @app.route('/leaderboard', methods=['GET', 'POST'])
 def leaderboard():
+    global text
     data = None
     with open("staticFiles/data/leaderboard.json") as json_file:
         data = json.load(json_file)
-    return render_template('leaderboard.html', players=data["players"], vector=vector)
+    text = get_text()
+    return render_template('leaderboard.html', players=data["players"], vector=vector, text=text)
 
 
 @app.route('/gettimer/<jsdata>')
@@ -59,6 +64,11 @@ def get_javascript_reset(jsdata):
     global score, time, vector
     score = 0; time = 0; vector = []
     return jsdata
+
+@app.route('/gettext/')
+def get_javascript_text():
+    text = get_text()
+    return text
 
 @app.route('/getmethod/<jsdata>')
 def get_javascript_data(jsdata):
@@ -104,6 +114,19 @@ def get_user_data(jsdata):
             outfile.write(json_object)
     return jsdata
 
+
+def get_text():
+    global language
+    filename = "staticFiles/data/text_EN.json"
+    if(language=="EN"):
+        filename = "staticFiles/data/text_EN.json"
+    elif(language=="FR"):
+        filename = "staticFiles/data/text_FR.json"
+    elif(language=="NL"):
+        filename = "staticFiles/data/text_NL.json"
+    with open(filename) as json_file:
+        text = json.load(json_file)
+    return text
 
 if __name__ == "__main__":
     app.run()

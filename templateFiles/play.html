@@ -20,7 +20,7 @@
         <ul>
             <li><a id="home" href="{{url_for('home')}}">Rules</a></li>
             <li class="current"><a  id="playy" href="{{url_for('play')}}">Play</a></li>
-            <li><a href="{{url_for('leaderboard')}}">Leaderboard</a></li>
+            <li><a  id="leader" href="{{url_for('leaderboard')}}">Leaderboard</a></li>
         </ul>
     </div>
 
@@ -110,19 +110,19 @@
             }
             displaySolution(id, 1);
         }
-        var text = document.getElementById("wintxt");
+        var textt = document.getElementById("wintxt");
         if(value != 0){ // Show the gain win by the player if it is more than 0
-            text.innerHTML = "+" + String(value);
-            text.style.display = "block";
-            text.style.opacity = '1';
+            textt.innerHTML = "+" + String(value);
+            textt.style.display = "block";
+            textt.style.opacity = '1';
         }
         setTimeout(hideElement, 2000); // Make the gain text disappear progressely 
         function hideElement() {
-            text.style.opacity = '0';
+            textt.style.opacity = '0';
         }
         currentscore += value; // value epend on the difficulty and time
         var score = document.getElementById("scoretxt");
-        score.innerHTML = "Score : " + String(currentscore);// Put Value
+        score.innerHTML = text["score"] + String(currentscore);// Put Value
         removePopup(id);
     }
 
@@ -141,19 +141,19 @@
             value = parseInt(gain - (level+2 * (deltatime/1000))); // value depend on the difficulty and time
             displaySolution(id, 1);
         }
-        var text = document.getElementById("wintxt");
+        var textt = document.getElementById("wintxt");
         if(value != 0){ // Show the gain win by the player if it is more than 0
-            text.innerHTML = "+" + String(value);
-            text.style.display = "block";
-            text.style.opacity = '1';
+            textt.innerHTML = "+" + String(value);
+            textt.style.display = "block";
+            textt.style.opacity = '1';
         }
         setTimeout(hideElement, 300); // Make the gain text disappear progressely 
         function hideElement() {
-            text.style.opacity = '0';
+            textt.style.opacity = '0';
         }
         AI_currentscore += value; // value epend on the difficulty and time
         var score = document.getElementById("scoretxt");
-        score.innerHTML = "Score : " + String(AI_currentscore); // Put Value    
+        score.innerHTML = text["score"] + String(AI_currentscore); // Put Value    
     }
 
     // Function to decrement the timer
@@ -161,14 +161,14 @@
         if(timer>0){
             timer -= 1;
             if(Math.round(timer/60)!== 0){
-                document.getElementById("timer").innerHTML = "Time : " + String(Math.round(timer/60)) + " min";
+                document.getElementById("timer").innerHTML = text["time"] + String(Math.round(timer/60)) + " min";
             }
             else{
-                document.getElementById("timer").innerHTML = "Time : <1 min";
+                document.getElementById("timer").innerHTML = text["time"] + "<1 min";
             }
         }
         else{
-            document.getElementById("timer").innerHTML = "Time : <1 min";
+            document.getElementById("timer").innerHTML = text["time"] + "<1 min";
         }
     }
 
@@ -369,11 +369,26 @@
             data: JSON.stringify(s)});   
     }
 
+    // Change de content of the texts depending on the language selected by the player
+    function changeLang(){
+        var url = "/gettext/"
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", url, false ); // false for synchronous request
+        xmlHttp.send(null);
+        var text = JSON.parse(xmlHttp.responseText);
+
+        document.getElementById('home').innerHTML = text["home"];
+        document.getElementById('playy').innerHTML = text["playy"];
+        document.getElementById('leader').innerHTML = text["leader"];
+        document.getElementById('quit').innerHTML = text["quit"];
+        document.getElementById('scoretxt').innerHTML = text["score"] + "0";
+    }
+
     //=================================================================================
     if({{score}} !== 0){
         var currentscore = {{score}};
         var score = document.getElementById("scoretxt");
-        score.innerHTML = "Score : " + String(currentscore);
+        score.innerHTML = text["score"] + String(currentscore);
     }
     else{
         var currentscore = 0;
@@ -387,10 +402,10 @@
     var starttime = undefined;
     var finishtime = undefined;
     var ads = {{ads|tojson}}; // Set of ads
+    var text = {{text|tojson}}; // Set of text in diff lang
     var map = new OpenLayers.Map("m");
     var audio_lose = document.getElementById("audio_lose"); // Play lose sound
     var audio_win = document.getElementById("audio_win"); // Play win sound
-
     var level = {{level}}; // Difficulty level
 
     if({{time}} !== 0){
@@ -420,6 +435,8 @@
     var lonLat = new OpenLayers.LonLat(4.55, 50.84865).transform(epsg4326, projectTo);
     map.setCenter(lonLat, zoom);
 
+    // Change the language of the text
+    changeLang();
 
     // Initialize the map
     resetMap(vectorID);
